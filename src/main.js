@@ -6,8 +6,8 @@ import GameUI from './scenes/GameUI'
 
 export default new Phaser.Game({
 	type: Phaser.AUTO,
-	width: 400,
-	height: 250,
+	width: 1280,
+	height: 720,
     scale:{ 
         autoCenter: Phaser.Scale.CENTER_HORIZONTAL,
     },
