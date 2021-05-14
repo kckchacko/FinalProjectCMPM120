@@ -15,6 +15,9 @@ let config = {
     },
     width: 1024,
 	height: 768,
+    scale:{ 
+        autoCenter: Phaser.Scale.CENTER_HORIZONTAL,
+      },
     physics: {
         default: 'arcade',
         arcade: {
