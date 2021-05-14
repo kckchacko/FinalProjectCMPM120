@@ -4,22 +4,24 @@ import Preloader from './scenes/Preloader'
 import Game from './scenes/Game'
 import GameUI from './scenes/GameUI'
 
-export default new Phaser.Game({
-	type: Phaser.AUTO,
-	width: 1280,
-	height: 720,
-    scale:{ 
-        autoCenter: Phaser.Scale.CENTER_HORIZONTAL,
+
+//game config
+let config = {
+    parent: 'phaser-game',
+    type: Phaser.CANVAS,
+    render: {
+        pixelArt: true
     },
-	physics: {
-		default: 'arcade',
-		arcade: {
-			gravity: { y: 0 },
-			debug: false
-		}
-	},
-	scene: [Preloader, Game, GameUI],
-	scale: {
-		zoom: 2
-	}
-})
+    width: 1024,
+	height: 768,
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 0 },
+            debug: false,
+        }
+    },
+    scene: [Preloader, Game, GameUI],
+};
+
+const game = new Phaser.Game(config);
