@@ -1,8 +1,9 @@
 import Phaser from '../lib/phaser.js'
 
 import Preloader from './scenes/Preloader'
-import Game from './scenes/Game'
-import GameUI from './scenes/GameUI'
+import Menu from './scenes/Menu.js'
+import Load from './scenes/Load.js'
+import Play from './scenes/Play.js';
 
 
 //game config
@@ -21,7 +22,7 @@ let config = {
             debug: false,
         }
     },
-    scene: [Preloader, Game, GameUI],
+    scene: [Load, Menu, Play],
 };
 
 const game = new Phaser.Game(config);
