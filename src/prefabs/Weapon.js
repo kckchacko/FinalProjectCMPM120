@@ -7,7 +7,7 @@ export default class Weapon extends Phaser.Physics.Arcade.Sprite{
         
         scene.add.existing(this);
         scene.physics.add.existing(this);
-        this.slash_sfx = scene.sound.add('slash_sfx');
+        // this.slash_sfx = scene.sound.add('slash_sfx');
 
         //set health for player
         const {W,A,S,D,E} = Phaser.Input.Keyboard.KeyCodes
@@ -48,7 +48,7 @@ export default class Weapon extends Phaser.Physics.Arcade.Sprite{
             }
             if(this.keys.e.isDown){
                 console.log('slash!');
-                this.slash_sfx.play;
+                // this.slash_sfx.play;
                 this.setActive(true);
                 this.setVisible(true);
                 this.activeCheck = true;
