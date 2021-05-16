@@ -1,9 +1,7 @@
-import Phaser from '../lib/phaser.js'
-
-import Preloader from './scenes/Preloader'
+// import Phaser from '../lib/phaser.js'
 import Menu from './scenes/Menu.js'
 import Load from './scenes/Load.js'
-import Play from './scenes/Play.js';
+import Play from './scenes/Play.js'
 
 
 //game config
@@ -16,6 +14,7 @@ let config = {
     width: 1024,
 	height: 768,
     scale:{ 
+        // zoom: 2,
         autoCenter: Phaser.Scale.CENTER_HORIZONTAL,
       },
     physics: {
