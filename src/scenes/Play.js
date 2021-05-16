@@ -71,7 +71,7 @@ export default class Play extends Phaser.Scene{
         if(weapon.activeCheck){
             enemy.health -=2;
             console.log("enemy health=",enemy.health);
-            slash_sfx.play;
+            // slash_sfx.play;
         }
         
     }
