@@ -7,8 +7,18 @@ export default class Weapon extends Phaser.Physics.Arcade.Sprite{
         
         scene.add.existing(this);
         scene.physics.add.existing(this);
-        //set health for player
+        this.slash_sfx = scene.sound.add('slash_sfx');
 
+        //set health for player
+        const {W,A,S,D,E} = Phaser.Input.Keyboard.KeyCodes
+        this.keys = scene.input.keyboard.addKeys({
+            w: W, //up 
+            a: A, //left
+            s: S, //down
+            d: D, //right
+            e: E //slash
+        })
+        this.activeCheck = false;
     }
 
 
@@ -23,7 +33,7 @@ export default class Weapon extends Phaser.Physics.Arcade.Sprite{
 
         this.body.setVelocity(0)
 
-        //============Movement================================
+        //============Move weapon with player================================
             //walking, incorporate set speed later 
             if(this.keys.w.isDown){
                 this.body.setVelocityY(-200);
@@ -36,19 +46,22 @@ export default class Weapon extends Phaser.Physics.Arcade.Sprite{
             }else if(this.keys.d.isDown){
                 this.body.setVelocityX(200);
             }
+            if(this.keys.e.isDown){
+                console.log('slash!');
+                this.slash_sfx.play;
+                this.setActive(true);
+                this.setVisible(true);
+                this.activeCheck = true;
+            }else{
+                this.activeCheck = false;
+                this.setActive(false);
+                this.setVisible(false);
+            }
 
-            //dashing/dodge roll 
-            // if(this.keys.q.justDown){
-            //     this.dashing = true; 
-            //     this.invlunerable = true;
-                
-            // }
-
+           
         //============Movement End============================
             //slash
-            if(keys.e.justDown){
-
-            }
+            
             
             // //interact 
             // if(keys.c.justDown){

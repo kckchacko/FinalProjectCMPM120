@@ -47,16 +47,16 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite{
 
 
 
-        this.footsteps = this.time.addEvent({
-            duration: 500,
-            repeat: -1,
-            callbackScope: this,
-            callback: function () {
-              if(this.player.isWalking) {
-                this.sound.play('playerStep');
-              }
-            }
-          });
+        // this.footsteps = this.time.addEvent({
+        //     duration: 500,
+        //     repeat: -1,
+        //     callbackScope: this,
+        //     callback: function () {
+        //       if(this.player.isWalking) {
+        //         this.sound.play('playerStep');
+        //       }
+        //     }
+        //   });
     }
 
 
@@ -89,7 +89,6 @@ export default class Hero extends Phaser.Physics.Arcade.Sprite{
             if(this.keys.q.justDown){
                 this.dashing = true; 
                 this.invlunerable = true;
-                
             }
         //============Movement End============================
             // //slash

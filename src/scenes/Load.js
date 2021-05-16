@@ -9,7 +9,7 @@ export default class Load extends Phaser.Scene{
         //load atlases,images, and spritesheets and audio here
         // assets/tilesheets/testTiledMap.json
         // this.load.image('hero', 'characters/hero_idle_0.png');
-
+        this.load.image('weapon','weapons/mani_weapon.png');
         this.load.image('temp_enem', 'enemies/enem_stapler_0.png');
         this.load.tilemapTiledJSON('office','tilesheets/testTiledMap.json');
         this.load.spritesheet('hero_idle','characters/hero_idle.png', {
