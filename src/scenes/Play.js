@@ -50,6 +50,9 @@ export default class Play extends Phaser.Scene{
 
         this.swap = this.input.keyboard.addKey('V');
 
+
+        this.bgm = this.sound.add('temp_bgm',{volume: 0.1, loop: true});
+        this.bgm.play();
         
     }
     update(time, delta){

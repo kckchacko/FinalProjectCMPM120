@@ -24,6 +24,7 @@ export default class Load extends Phaser.Scene{
         this.load.audio('deal_damage_sfx', 'sfx/deal_damage.wav');
         this.load.audio('slash_sfx', 'sfx/deal_damage.wav');
         this.load.audio('take_damage_sfx', 'sfx/take_damage.wav');
+        this.load.audio('temp_bgm', 'sfx/finalProjTempbgm.mp3')
     }
     create(){
         //create animations here
