@@ -7,7 +7,6 @@ export default class Play extends Phaser.Scene{
     }
 
     preload(){
-        this.load.image('tiles', '../assets/tilesheets/officeImage.png')
         // this.load.tilemapTiledJSON('map', '../scripts/purpleMapObjectsVideo.json')
     }
     create(){
