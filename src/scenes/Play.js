@@ -62,6 +62,7 @@ export default class Play extends Phaser.Scene{
         this.weapon.update();
         if(Phaser.Input.Keyboard.JustDown(this.swap)){
             this.scene.start('menuScene');
+            this.bgm.stop();
         }
     }
     handlePlayerEnemyCollision(player, enemy){

@@ -32,7 +32,8 @@ export default class Weapon extends Phaser.Physics.Arcade.Sprite{
         super.update();
 
         this.body.setVelocity(0)
-
+        this.slash_sfx = this.scene.sound.add('slash_sfx',{volume: 0.1});
+        
         //============Move weapon with player================================
             //walking, incorporate set speed later 
             if(this.keys.w.isDown){
@@ -48,7 +49,7 @@ export default class Weapon extends Phaser.Physics.Arcade.Sprite{
             }
             if(this.keys.e.isDown){
                 console.log('slash!');
-                // this.slash_sfx.play;
+                this.slash_sfx.play;
                 this.setActive(true);
                 this.setVisible(true);
                 this.activeCheck = true;
