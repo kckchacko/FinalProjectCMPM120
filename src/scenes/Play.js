@@ -7,7 +7,7 @@ export default class Play extends Phaser.Scene{
     }
 
     preload(){
-        this.load.path = "./assets/";
+        this.load.path = "./assets/"; 
         this.load.spritesheet('tilesheet', '/tilesheets/wallsfloor2.png', {
             frameWidth: 16,
             frameHeight: 16
