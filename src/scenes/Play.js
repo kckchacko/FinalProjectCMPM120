@@ -7,21 +7,28 @@ export default class Play extends Phaser.Scene{
     }
 
     preload(){
-        // this.load.tilemapTiledJSON('map', '../scripts/purpleMapObjectsVideo.json')
+        this.load.path = "./assets/";
+        this.load.spritesheet('tilesheet', '/tilesheets/wallsfloor2.png', {
+            frameWidth: 16,
+            frameHeight: 16
+        });
+        this.load.tilemapTiledJSON('office', "/tilesheets/testTiledMap.json");
+        this.load.image('tiles', '/tilesheets/officeImage.png');
     }
     create(){
         document.getElementById('description').innerHTML = '<h2>Play.js</h2><br>WASD to move, E to attack, V to go to menu';
-       
-        this.add.image(512,384, 'tiles'); //placeholder image 
-       
-       
-        // const map = this.make.tilemap({key: 'office'});
-        // const tileset = map.addTilesetImage('office','testMap'); //error here 
+        //this.add.image(512,384, 'tiles'); //placeholder image 
+        const map = this.add.tilemap('office');
+        const tileset = map.addTilesetImage('testMap','tiles'); 
+        const backgroundlayer = map.createLayer('Walls', tileset, 0, 0); 
+        const groundLayer = map.createLayer("Ground", tileset, 0, 0);
+        
+        
         // map.createStaticLayer('Ground', tileset);
         // const wallsLayer = map.createStaticLayer('Walls', tileset);
         // wallsLayer.Layer.setCollisionByProperty({collides: true});
         // map.createStaticLayer()
-
+ 
     
         this.cameras.main.setBackgroundColor(0x4169e1)
 
@@ -37,8 +44,8 @@ export default class Play extends Phaser.Scene{
         this.enemy = new Enemy(this, 500, 368, 'temp_enem', 100, 100).setScale(1.5);
         this.weapon = new Weapon(this, 220,120,'weapon' );
         // this.cameras.main.startFollow(this.hero, true, 0.8, 0.8);
-        this.hero.body.setCollideWorldBounds(true);
-        this.enemy.body.setCollideWorldBounds(true);
+        //this.hero.body.setCollideWorldBounds(true);
+        //this.enemy.body.setCollideWorldBounds(true);
         this.weapon.body.setImmovable(true);
         this.physics.add.collider(this.hero, this.enemy, this.handlePlayerEnemyCollision,null, this );
         this.physics.add.collider(this.weapon, this.enemy, this.handleWeaponEnemyCollision,null, this);
