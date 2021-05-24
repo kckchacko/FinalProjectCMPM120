@@ -15,7 +15,7 @@ export default class Play extends Phaser.Scene{
         this.load.tilemapTiledJSON('office', "/tilesheets/testTiledMap.json");
         this.load.image('tiles', '/tilesheets/officeImage.png');
     }
-    create(){
+    create(){ 
         document.getElementById('description').innerHTML = '<h2>Play.js</h2><br>WASD to move, E to attack, V to go to menu';
         //this.add.image(512,384, 'tiles'); //placeholder image 
         const map = this.add.tilemap('office');
