@@ -8,7 +8,7 @@ import Play from './scenes/Play.js'
 let config = {
     parent: 'phaser-game',
     type: Phaser.CANVAS,
-    render: {
+    render: { 
         pixelArt: true
     },
     width: 1024,
