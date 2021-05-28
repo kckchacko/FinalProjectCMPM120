@@ -1,7 +1,7 @@
 // import Phaser from '../lib/phaser.js'
-import Menu from './scenes/Menu.js'
-import Load from './scenes/Load.js'
-import Play from './scenes/Play.js'
+// import Menu from './scenes/Menu.js'
+// import Load from './scenes/Load.js'
+// import Play from './scenes/Play.js'
 
 
 //game config

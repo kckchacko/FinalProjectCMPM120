@@ -1,7 +1,11 @@
-import Hero from '../prefabs/Hero.js'
-import Enemy from '../prefabs/Enemy.js'
-import Weapon from '../prefabs/Weapon.js';
-export default class Play extends Phaser.Scene{
+// import Hero from '../prefabs/Hero.js'
+// import Enemy from '../prefabs/Enemy.js'
+// import Weapon from '../prefabs/Weapon.js'
+// import IdleState from '../prefabs/Hero.js'
+// import MoveState from '../prefabs/Hero.js'
+
+// export default class Play extends Phaser.Scene{
+class Play extends Phaser.Scene{    
     constructor(){
         super('playScene');
     }
@@ -38,18 +42,29 @@ export default class Play extends Phaser.Scene{
 
 
 
-        this.hero = new Hero(this, 200, 120,'hero_idle',100 , 100).setScale(1.5);
+        this.hero = new Hero(this, 200, 120,'hero',100 , 'down').setScale(1.5);
+        this.heroFSM = new StateMachine('idle', {
+            idle: new IdleState(),
+            move: new MoveState(),
+            swing: new SwingState(),
+            dash: new DashState(),
+            hurt: new HurtState(),
+        }, [this, this.hero]);
+
+
+
         this.cameras.main.startFollow(this.hero, true, 0.8, 0.8)
 
-        this.enemy = new Enemy(this, 500, 368, 'temp_enem', 100, 100).setScale(1.5);
-        this.weapon = new Weapon(this, 220,120,'weapon' );
+
+        // this.enemy = new Enemy(this, 500, 368, 'temp_enem', 100, 100).setScale(1.5);
+        // this.weapon = new Weapon(this, 220,120,'weapon' );
         // this.cameras.main.startFollow(this.hero, true, 0.8, 0.8);
         //this.hero.body.setCollideWorldBounds(true);
         //this.enemy.body.setCollideWorldBounds(true);
-        this.weapon.body.setImmovable(true);
-        this.physics.add.collider(this.hero, this.enemy, this.handlePlayerEnemyCollision,null, this );
-        this.physics.add.collider(this.weapon, this.enemy, this.handleWeaponEnemyCollision,null, this);
-        this.physics.add.overlap(this.weapon, this.enemy, this.handleWeaponEnemyCollision)
+        // this.weapon.body.setImmovable(true);
+        // this.physics.add.collider(this.hero, this.enemy, this.handlePlayerEnemyCollision,null, this );
+        // this.physics.add.collider(this.weapon, this.enemy, this.handleWeaponEnemyCollision,null, this);
+        // this.physics.add.overlap(this.weapon, this.enemy, this.handleWeaponEnemyCollision)
         // this.physics.add.collider(this.player, worldLayer); 
 
 
@@ -63,9 +78,10 @@ export default class Play extends Phaser.Scene{
     }
     update(time, delta){
 
-        this.hero.update();
-        this.enemy.update();
-        this.weapon.update();
+        // this.hero.update();
+        this.heroFSM.step();
+        // this.enemy.update();
+        // this.weapon.update();
         if(Phaser.Input.Keyboard.JustDown(this.swap)){
             this.scene.start('menuScene');
             this.bgm.stop();
@@ -86,3 +102,4 @@ export default class Play extends Phaser.Scene{
         
     }
 }
+
