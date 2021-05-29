@@ -12,21 +12,19 @@ class Play extends Phaser.Scene{
 
     preload(){
         this.load.path = "./assets/"; 
-        this.load.spritesheet('tilesheet', '/tilesheets/wallsfloor2.png', {
-            frameWidth: 16,
-            frameHeight: 16
-        });
-        this.load.tilemapTiledJSON('office', "/tilesheets/testTiledMap.json");
-        this.load.image('tiles', '/tilesheets/officeImage.png');
+        this.load.tilemapTiledJSON('tilemapJSON', "tilesheets/testTiledMap.json");
+        this.load.image('microtileset', 'tilesheets/wallsfloor2.png');
     }
     create(){ 
         document.getElementById('description').innerHTML = '<h2>Play.js</h2><br>WASD to move, E to attack, V to go to menu';
         //this.add.image(512,384, 'tiles'); //placeholder image 
-        const map = this.add.tilemap('office');
-        const tileset = map.addTilesetImage('testMap','tiles'); 
-        const backgroundlayer = map.createLayer('Walls', tileset, 0, 0); 
-        const groundLayer = map.createLayer("Ground", tileset, 0, 0);
-        
+        const map = this.add.tilemap('tilemapJSON');
+        const tileset = map.addTilesetImage('tileset','microtileset'); 
+        //const backgroundlayer = map.createLayer('Walls', tileset, 0, 0); 
+        const groundLayer = map.createLayer("Tile Layer 1", tileset, 0, 0);
+        groundLayer.setCollisionByProperty({
+            collides: true
+        });
         
         // map.createStaticLayer('Ground', tileset);
         // const wallsLayer = map.createStaticLayer('Walls', tileset);
@@ -51,8 +49,10 @@ class Play extends Phaser.Scene{
             hurt: new HurtState(),
         }, [this, this.hero]);
 
-
-
+        this.cameras.main.setBounds(0,0, map.widthInPixels, map.heightInPixels);
+        this.physics.world.bounds.setTo(0,0, map.widthInPixels, map.heightInPixels);
+        this.physics.add.collider(this.hero, groundLayer);
+        
         this.cameras.main.startFollow(this.hero, true, 0.8, 0.8)
 
 
