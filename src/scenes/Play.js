@@ -17,28 +17,18 @@ class Play extends Phaser.Scene{
     }
     create(){ 
         document.getElementById('description').innerHTML = '<h2>Play.js</h2><br>WASD to move, E to attack, V to go to menu';
-        //this.add.image(512,384, 'tiles'); //placeholder image 
         const map = this.add.tilemap('tilemapJSON');
         const tileset = map.addTilesetImage('tileset','microtileset'); 
         //const backgroundlayer = map.createLayer('Walls', tileset, 0, 0); 
         const groundLayer = map.createLayer("Tile Layer 1", tileset, 0, 0);
         groundLayer.setCollisionByProperty({
             collides: true
-        });
+        });     
         
-        // map.createStaticLayer('Ground', tileset);
-        // const wallsLayer = map.createStaticLayer('Walls', tileset);
-        // wallsLayer.Layer.setCollisionByProperty({collides: true});
-        // map.createStaticLayer()
- 
-    
         this.cameras.main.setBackgroundColor(0x4169e1)
-
         this.cameras.main.height = 768
         this.cameras.main.width = 1024
         this.cameras.main.setPosition(0,0)
-
-
 
         this.hero = new Hero(this, 200, 120,'hero',100 , 'down').setScale(1.5);
         this.heroFSM = new StateMachine('idle', {
