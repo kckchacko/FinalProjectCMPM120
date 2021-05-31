@@ -16,6 +16,8 @@ class Hero extends Phaser.Physics.Arcade.Sprite{
         this.direction = direction; 
         this.heroVel = 200; //in pixels  
         this.dashTime = 300; //in ms 
+        this.dashCD = 2000; 
+        this.canDash = true;
         this.hurtCD = 500; //also in ms 
         this.invlunerable = false; 
         this.body.setCollideWorldBounds(true);
@@ -162,7 +164,7 @@ class Hero extends Phaser.Physics.Arcade.Sprite{
             return;
         }
 
-        if(Phaser.Input.Keyboard.JustDown(hero.keys.q)){
+        if(Phaser.Input.Keyboard.JustDown(hero.keys.q) && hero.canDash){
             this.stateMachine.transition('dash');
             return;
         }
@@ -186,7 +188,7 @@ class Hero extends Phaser.Physics.Arcade.Sprite{
         }
 
         // transition to dash if pressing shift
-        if(Phaser.Input.Keyboard.JustDown(hero.keys.q)) {
+        if(Phaser.Input.Keyboard.JustDown(hero.keys.q) && hero.canDash) {
             this.stateMachine.transition('dash');
             return;
         }
@@ -231,7 +233,9 @@ class SwingState extends State {
 
 class DashState extends State {
     enter(scene, hero) {
-        hero.body.setVelocity(0);
+        hero.body.setVelocity(0)
+        
+        hero.canDash = false;
         hero.anims.play(`swing-${hero.direction}`);
         switch(hero.direction) {
             case 'up':
@@ -247,10 +251,15 @@ class DashState extends State {
                 hero.body.setVelocityX(hero.heroVel * 3);
                 break;
         }
+        
+        
 
         // set a short delay before going back to idle
         scene.time.delayedCall(hero.dashTime, () => {
             this.stateMachine.transition('idle');
+        });
+        scene.time.delayedCall(hero.dashCD, () => {
+            hero.canDash = true;
         });
     }
 }
