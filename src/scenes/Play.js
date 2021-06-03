@@ -73,7 +73,6 @@ class Play extends Phaser.Scene{
         
     }
     update(time, delta){
-
         // this.hero.update();
         this.heroFSM.step();
         // this.enemy.update();
