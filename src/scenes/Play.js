@@ -12,15 +12,21 @@ class Play extends Phaser.Scene{
 
     preload(){
         this.load.path = "./assets/"; 
-        this.load.tilemapTiledJSON('tilemapJSON', "tilesheets/testTiledMap.json");
+        this.load.tilemapTiledJSON('tilemapJSON', "tilesheets/LOne.json");
         this.load.image('microtileset', 'tilesheets/wallsfloor2.png');
     }
     create(){ 
         document.getElementById('description').innerHTML = '<h2>Play.js</h2><br>WASD to move, E to attack, V to go to menu';
         const map = this.add.tilemap('tilemapJSON');
-        const tileset = map.addTilesetImage('tileset','microtileset'); 
+        const tileset = map.addTilesetImage('wallsfloor2','microtileset'); 
         //const backgroundlayer = map.createLayer('Walls', tileset, 0, 0); 
-        const groundLayer = map.createLayer("Tile Layer 1", tileset, 0, 0);
+        const groundLayer = map.createLayer("floor", tileset, 0, 0);
+        const propLayer = map.createLayer("props", tileset, 0, 0);
+        propLayer.setScale(2.5);
+        groundLayer.setScale(2.5);
+        propLayer.setCollisionByProperty({
+            collides: true
+        });  
         groundLayer.setCollisionByProperty({
             collides: true
         });     
@@ -40,9 +46,9 @@ class Play extends Phaser.Scene{
         }, [this, this.hero]);
 
         this.cameras.main.setBounds(0,0, map.widthInPixels, map.heightInPixels);
-        this.physics.world.bounds.setTo(0,0, map.widthInPixels, map.heightInPixels);
+        //this.physics.world.bounds.setTo(0,0, map.widthInPixels, map.heightInPixels);
         this.physics.add.collider(this.hero, groundLayer);
-        
+        this.physics.add.collider(this.hero, propLayer);
         this.cameras.main.startFollow(this.hero, true, 0.8, 0.8)
 
 
