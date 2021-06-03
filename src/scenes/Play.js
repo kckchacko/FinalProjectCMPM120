@@ -36,7 +36,8 @@ class Play extends Phaser.Scene{
         this.cameras.main.width = 1024
         this.cameras.main.setPosition(0,0)
 
-        this.hero = new Hero(this, 200, 120,'hero',100 , 'down').setScale(1.5);
+        this.hero = new Hero(this, 200, 140,'hero',100 , 'down').setScale(1.5);
+        this.hero.body.setSize(this.hero.width * 0.5, this.hero.height *0.7);
         this.heroFSM = new StateMachine('idle', {
             idle: new IdleState(),
             move: new MoveState(),
