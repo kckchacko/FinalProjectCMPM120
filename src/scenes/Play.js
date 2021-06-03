@@ -47,7 +47,6 @@ class Play extends Phaser.Scene{
         }, [this, this.hero]);
 
         this.cameras.main.setBounds(0,0, map.widthInPixels, map.heightInPixels);
-        //this.physics.world.bounds.setTo(0,0, map.widthInPixels, map.heightInPixels);
         this.physics.add.collider(this.hero, groundLayer);
         this.physics.add.collider(this.hero, propLayer);
         this.cameras.main.startFollow(this.hero, true, 0.8, 0.8)
