@@ -34,7 +34,6 @@ class Load extends Phaser.Scene{
     }
     create(){
         //create animations here
-    
         this.scene.start('menuScene')
     }
 }
