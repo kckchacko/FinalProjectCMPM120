@@ -276,5 +276,20 @@ class DashState extends State {
             hero.clearTint();
             this.stateMachine.transition('idle');
         });
+
+        switch(hero.direction) {
+            case 'up':
+                hero.body.setVelocityY(hero.heroVel * 3);
+                break;
+            case 'down':
+                hero.body.setVelocityY(-hero.heroVel * 3);
+                break;
+            case 'left':
+                hero.body.setVelocityX(hero.heroVel * 3);
+                break;
+            case 'right':
+                hero.body.setVelocityX(-hero.heroVel * 3);
+                break;
+        }
     }
 }

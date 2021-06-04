@@ -46,9 +46,14 @@ class Play extends Phaser.Scene{
             hurt: new HurtState(),
         }, [this, this.hero]);
 
+        this.enemy = new Enemy(this, 500, 500, 'temp_enem',200,'horiz').setScale(1.5);
+        this.physics.add.collider(this.enemy, groundLayer);
+        this.physics.add.collider(this.enemy, propLayer);
+        
         this.cameras.main.setBounds(0,0, map.widthInPixels, map.heightInPixels);
         this.physics.add.collider(this.hero, groundLayer);
         this.physics.add.collider(this.hero, propLayer);
+        this.physics.add.collider(this.hero,this.enemy, this.handlePlayerEnemyCollision,null,this);
         this.cameras.main.startFollow(this.hero, true, 0.8, 0.8)
 
 
@@ -69,13 +74,13 @@ class Play extends Phaser.Scene{
 
 
         this.bgm = this.sound.add('temp_bgm',{volume: 0.1, loop: true});
-        this.bgm.play();
+        // this.bgm.play();
         
     }
     update(time, delta){
         // this.hero.update();
         this.heroFSM.step();
-        // this.enemy.update();
+        this.enemy.update();
         // this.weapon.update();
         if(Phaser.Input.Keyboard.JustDown(this.swap)){
             this.scene.start('menuScene');
@@ -85,7 +90,9 @@ class Play extends Phaser.Scene{
     handlePlayerEnemyCollision(player, enemy){
         // if(!enemy.alreadyOverlapp)
         player.health -= 1; 
+        player.body.setVelocityX(-enemy.speed * 2);
         console.log("player health=",player.health);
+
         this.cameras.main.shake(100, 0.05);
     }
     handleWeaponEnemyCollision(weapon,enemy){
@@ -95,6 +102,10 @@ class Play extends Phaser.Scene{
             // slash_sfx.play;
         }
         
+    }
+    handleEnemyWallCollision(enemy){
+        // enemy.body.setVelocityX(-enemy.speed);
+        enemy.speed= -enemy.speed;
     }
 }
 

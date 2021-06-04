@@ -1,38 +1,37 @@
-export default class Enemy extends Phaser.Physics.Arcade.Sprite{
+ class Enemy extends Phaser.Physics.Arcade.Sprite{
 
     init(){
 
     }
 
-    constructor(scene, x,y, key, frame, health, speed){
-        super(scene, x, y, key, frame);
+    constructor(scene, x,y, texture,speed,type){
+        super(scene, x, y, texture);
         
         scene.add.existing(this);
         scene.physics.add.existing(this);
         
-        //set health for player
-        this.health = health; 
-        //set speed for player
+        //set speed for enemy
         this.speed = speed; 
-        
-        this.dashing = false; 
-        this.invlunerable = false; 
+        this.type = type;
+        this.body.onCollide = true; 
+        this.body.setVelocityX(this.speed);
+        // scene.physics.world.on(Phaser.Physics.Arcade.Events.TILE_COLLIDE, handleWallCollision(this));
         //createAnims(); currently not implemented
        
         //add movement keys 
-        const {W,A,S,D,Q} = Phaser.Input.Keyboard.KeyCodes
-        this.keys = scene.input.keyboard.addKeys({
-            w: W, //up 
-            a: A, //left
-            s: S, //down
-            d: D, //right
-            q: Q //dash
-            // e: E, //slash
-            // c: C  //interact (items)
-        })
+        // const {W,A,S,D,Q} = Phaser.Input.Keyboard.KeyCodes
+        // this.keys = scene.input.keyboard.addKeys({
+        //     w: W, //up 
+        //     a: A, //left
+        //     s: S, //down
+        //     d: D, //right
+        //     q: Q //dash
+        //     // e: E, //slash
+        //     // c: C  //interact (items)
+        // })
     }
 
-
+    
     //function to create animations for the player sprite 
     createAnims(){
 
@@ -40,42 +39,45 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite{
 
 
     update(){
-        super.update();
-
-        this.body.setVelocity(0)
-
-        //============Movement================================
-            //walking, incorporate set speed later 
-            // if(this.keys.w.isDown){
-            //     this.body.setVelocityY(-200);
-            // }else if(this.keys.s.isDown){
-            //     this.body.setVelocityY(200);
-            // }
-
-            // if(this.keys.a.isDown){
-            //     this.body.setVelocityX(-200);
-            // }else if(this.keys.d.isDown){
-            //     this.body.setVelocityX(200);
-            // }
-
-            // //dashing/dodge roll 
-            // if(this.keys.q.justDown){
-            //     this.dashing = true; 
-            //     this.invlunerable = true;
-                
-            // }
-        //============Movement End============================
-            // //slash
-            // if(keys.e.justDown){
-
-            // }
+        // super.update();
+        this.check_blocked(this, this.type);
+        // if(this.)
+        // console.log(this.body.blocked)
+        // if(this.type = "horiz"){
             
-            // //interact 
-            // if(keys.c.justDown){
-
-            // }
+        // }
+        // if(this.type = "verti"){
+        //     this.body.setVelocityY(this.speed);
+        // }
+        // this.body.setVelocity(0);
+        
+        
     
     }
 
+    check_blocked(enemy, enem_type ){
+        switch(enem_type){
+            case 'horiz':
+                if(enemy.body.blocked.left){
+                    enemy.speed = -this.speed 
+                    enemy.body.setVelocityX(this.speed);
+                }
+                if(enemy.body.blocked.right ){
+                    enemy.speed = -this.speed 
+                    enemy.body.setVelocityX(this.speed);
+                    // console.log("hello");
+        
+                }
+                break;
+            case 'verti':
+                break;
+            default:
+                return;
+        }
+        
+    }
 
+}
+function handleWallCollision(enemy){
+    enemy.body.setVelocityX(-this.speed);
 }
