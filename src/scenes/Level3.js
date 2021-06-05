@@ -1,16 +1,9 @@
-// import Hero from '../prefabs/Hero.js'
-// import Enemy from '../prefabs/Enemy.js'
-// import Weapon from '../prefabs/Weapon.js'
-// import IdleState from '../prefabs/Hero.js'
-// import MoveState from '../prefabs/Hero.js'
-
-// export default class Play extends Phaser.Scene{
-class Play extends Phaser.Scene{  
+class Level3 extends Phaser.Scene{  
     constructor(){
-        super('playScene');
+        super('Level3');
     }
     init(props) {
-        const {level = 0} = props;
+        const {level = 2} = props;
         this.currentLevel = level;
     }
     preload(){
@@ -18,25 +11,20 @@ class Play extends Phaser.Scene{
         switch(this.currentLevel) {
             case 0:
                 this.load.tilemapTiledJSON('Level', "tilesheets/LOne.json");
-                break;
             case 1: 
-                this.load.tilemapTiledJSON('Level', "tilesheets/LTwo.json");
-                break;
+                this.load.tilemapTiledJSON('Level2', "tilesheets/LTwo.json");
             case 2:
-                this.load.tilemapTiledJSON('Level', "tilesheets/LThree.json");
-                break;
+                this.load.tilemapTiledJSON('Level3', "tilesheets/LThree.json");
             case 3:
                 this.load.tilemapTiledJSON('Level', "tilesheets/LFour.json");
-                break;
             default:
                 this.load.tilemapTiledJSON('Level', "tilesheets/LOne.json");
-                break;
         }
         this.load.image('microtileset', 'tilesheets/wallsfloor2.png');
     }
     create(){ 
-        document.getElementById('description').innerHTML = '<h2>Play.js</h2><br>WASD to move, E to attack, V to go to menu';
-        const map = this.add.tilemap('Level');
+        document.getElementById('description').innerHTML = '<h2>Play.js</h2><br>333WASD to move, E to attack, V to go to menu';
+        const map = this.add.tilemap('Level3');
         const tileset = map.addTilesetImage('wallsfloor2','microtileset'); 
         //const backgroundlayer = map.createLayer('Walls', tileset, 0, 0); 
         const groundLayer = map.createLayer("floor", tileset, 0, 0);
@@ -104,7 +92,7 @@ class Play extends Phaser.Scene{
         if(Phaser.Input.Keyboard.JustDown(this.swap)){
             //this.scene.restart({ level: this.currentLevel + 1 });
             //this.scene.start('menuScene');
-            this.scene.start('Level2');
+            this.scene.start('Level4');
             this.bgm.stop();
         }
     }
@@ -129,4 +117,3 @@ class Play extends Phaser.Scene{
         enemy.speed= -enemy.speed;
     }
 }
-
