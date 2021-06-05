@@ -47,6 +47,7 @@ class Play extends Phaser.Scene{
         }, [this, this.hero]);
 
         this.enemy = new Enemy(this, 500, 500, 'temp_enem',200,'horiz').setScale(1.5);
+        this.enemy.body.setSize(this.hero.width * 0.48, this.enemy.height *0.53); //set collision
         this.physics.add.collider(this.enemy, groundLayer);
         this.physics.add.collider(this.enemy, propLayer);
         
