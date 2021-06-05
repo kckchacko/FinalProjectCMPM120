@@ -21,16 +21,23 @@ class Level3 extends Phaser.Scene{
                 this.load.tilemapTiledJSON('Level', "tilesheets/LOne.json");
         }
         this.load.image('microtileset', 'tilesheets/wallsfloor2.png');
+        this.load.image('microtileset', 'tilesheets/stair.png');
     }
     create(){ 
         document.getElementById('description').innerHTML = '<h2>Play.js</h2><br>333WASD to move, E to attack, V to go to menu';
+        this.keyCount = 0;
         const map = this.add.tilemap('Level3');
         const tileset = map.addTilesetImage('wallsfloor2','microtileset'); 
         //const backgroundlayer = map.createLayer('Walls', tileset, 0, 0); 
         const groundLayer = map.createLayer("floor", tileset, 0, 0);
         const propLayer = map.createLayer("props", tileset, 0, 0);
+        const stairLayer = map.createLayer("stairs", tileset, 0, 0);
+        stairLayer.setScale(2.5);
         propLayer.setScale(2.5);
         groundLayer.setScale(2.5);
+        stairLayer.setCollisionByProperty({
+            collides: true
+        });  
         propLayer.setCollisionByProperty({
             collides: true
         });  
@@ -53,27 +60,28 @@ class Level3 extends Phaser.Scene{
         }, [this, this.hero]);
 
         this.enemy = new Enemy(this, 500, 500, 'temp_enem',200,'horiz').setScale(1.5);
+        this.key = new Key(this, 622, 165, 'key',200,'horiz').setScale(1.7); //add the key
+        this.stair = new Stair(this, 860, 180, 'stair').setScale(1.7).setImmovable();  //add stairs
+        this.stair.setScale(2.7);
+
         this.enemy.body.setSize(this.hero.width * 0.48, this.enemy.height *0.53); //set collision
+
         this.physics.add.collider(this.enemy, groundLayer);
         this.physics.add.collider(this.enemy, propLayer);
-        
+        this.physics.add.collider(this.enemy, stairLayer);
+        this.physics.add.collider(this.key, groundLayer);
+        this.physics.add.collider(this.key, propLayer);
+
         this.cameras.main.setBounds(0,0, map.widthInPixels, map.heightInPixels);
+
         this.physics.add.collider(this.hero, groundLayer);
         this.physics.add.collider(this.hero, propLayer);
+        this.physics.add.collider(this.hero, stairLayer);
+
         this.physics.add.collider(this.hero,this.enemy, this.handlePlayerEnemyCollision,null,this);
+        this.physics.add.collider(this.hero,this.key, this.handlePlayerKeyCollision,null,this); //key collision
+        this.physics.add.collider(this.hero,this.stair, this.handlePlayerStairCollision,null, this);
         this.cameras.main.startFollow(this.hero, true, 0.8, 0.8)
-
-
-        // this.enemy = new Enemy(this, 500, 368, 'temp_enem', 100, 100).setScale(1.5);
-        // this.weapon = new Weapon(this, 220,120,'weapon' );
-        // this.cameras.main.startFollow(this.hero, true, 0.8, 0.8);
-        //this.hero.body.setCollideWorldBounds(true);
-        //this.enemy.body.setCollideWorldBounds(true);
-        // this.weapon.body.setImmovable(true);
-        // this.physics.add.collider(this.hero, this.enemy, this.handlePlayerEnemyCollision,null, this );
-        // this.physics.add.collider(this.weapon, this.enemy, this.handleWeaponEnemyCollision,null, this);
-        // this.physics.add.overlap(this.weapon, this.enemy, this.handleWeaponEnemyCollision)
-        // this.physics.add.collider(this.player, worldLayer); 
 
 
 
@@ -94,6 +102,18 @@ class Level3 extends Phaser.Scene{
             //this.scene.start('menuScene');
             this.scene.start('Level4');
             this.bgm.stop();
+        }
+    }
+    handlePlayerKeyCollision(player, key){
+        this.keyCount++;
+        this.key.destroy();
+        console.log("Key Collected", this.keyCount);
+    }
+
+    handlePlayerStairCollision(player){
+        console.log("touching stair", this.keyCount);
+        if(this.keyCount == 1) { 
+            this.scene.start('Level4');
         }
     }
     handlePlayerEnemyCollision(player, enemy){
