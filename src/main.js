@@ -11,7 +11,7 @@ let config = {
     render: { 
         pixelArt: true
     },
-    width: 1024,
+    width: 960,
 	height: 768,
     scale:{ 
         // zoom: 2,

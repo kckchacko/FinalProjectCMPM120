@@ -44,7 +44,6 @@ class Play extends Phaser.Scene{
         const groundLayer = map.createLayer("floor", tileset, 0, 0);
         const propLayer = map.createLayer("props", tileset, 0, 0);
         const stairLayer = map.createLayer("stairs", tileset, 0, 0);
-        //stairLayer.setScale(2.5);
         propLayer.setScale(2.5);
         groundLayer.setScale(2.5);
         stairLayer.setCollisionByProperty({
@@ -56,7 +55,8 @@ class Play extends Phaser.Scene{
         groundLayer.setCollisionByProperty({
             collides: true
         });     
-        this.cameras.main.setBackgroundColor(0x4169e1)
+
+        this.cameras.main.setBackgroundColor(0x00000)
         this.cameras.main.height = 768
         this.cameras.main.width = 1024
         this.cameras.main.setPosition(0,0)
