@@ -24,7 +24,7 @@ class Level4 extends Phaser.Scene{
         this.load.image('microtileset', 'tilesheets/stair.png');
     }
     create(){ 
-        document.getElementById('description').innerHTML = '<h2>Play.js</h2><br>444WASD to move, E to attack, V to go to menu';
+        document.getElementById('description').innerHTML = '<h2>Play.js</h2><br>4444WASD to move, E to attack, V to go to menu';
         this.keyCount = 0;
         const map = this.add.tilemap('Level4');
         const tileset = map.addTilesetImage('wallsfloor2','microtileset'); 
@@ -43,7 +43,7 @@ class Level4 extends Phaser.Scene{
         groundLayer.setCollisionByProperty({
             collides: true
         });     
-        this.cameras.main.setBackgroundColor(0x4169e1)
+        this.cameras.main.setBackgroundColor(0x00000)
         this.cameras.main.height = 768
         this.cameras.main.width = 1024
         this.cameras.main.setPosition(0,0)
@@ -61,8 +61,7 @@ class Level4 extends Phaser.Scene{
         this.enemy = new Enemy(this, 500, 500, 'temp_enem',200,'horiz').setScale(1.5);
         this.key = new Key(this, 735, 560, 'key',200,'horiz').setScale(1.7); //add the key
         this.key2 = new Key(this, 380, 150, 'key',200,'horiz').setScale(1.7);
-        this.stair = new Stair(this, 860, 180, 'stair').setScale(1.7).setImmovable();  //add stairs
-        this.stair.setScale(2.7);
+        this.stair = new Stair(this, 860, 180, 'weapon').setScale(1.8).setImmovable();  //add stairs
 
         this.enemy.body.setSize(this.hero.width * 0.48, this.enemy.height *0.53); //set collision
 

@@ -44,7 +44,7 @@ class Level2 extends Phaser.Scene{
         groundLayer.setCollisionByProperty({
             collides: true
         });     
-        this.cameras.main.setBackgroundColor(0x4169e1)
+        this.cameras.main.setBackgroundColor(0x00000)
         this.cameras.main.height = 768
         this.cameras.main.width = 1024
         this.cameras.main.setPosition(0,0)
