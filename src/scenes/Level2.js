@@ -60,7 +60,7 @@ class Level2 extends Phaser.Scene{
         }, [this, this.hero]);
 
         this.enemy = new Enemy(this, 500, 500, 'temp_enem',200,'horiz').setScale(1.5);
-        this.key = new Key(this, 622, 165, 'key',200,'horiz').setScale(1.7); //add the key
+        this.key = new Key(this, 544, 165, 'key',200,'horiz').setScale(1.7); //add the key
         this.stair = new Stair(this, 860, 180, 'stair').setScale(1.7).setImmovable();  //add stairs
         this.stair.setScale(2.7);
 

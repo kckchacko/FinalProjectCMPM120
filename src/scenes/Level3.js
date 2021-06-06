@@ -60,7 +60,7 @@ class Level3 extends Phaser.Scene{
         }, [this, this.hero]);
 
         this.enemy = new Enemy(this, 500, 500, 'temp_enem',200,'horiz').setScale(1.5);
-        this.key = new Key(this, 622, 165, 'key',200,'horiz').setScale(1.7); //add the key
+        this.key = new Key(this, 220, 485, 'key',200,'horiz').setScale(1.7); //add the key
         this.stair = new Stair(this, 860, 180, 'stair').setScale(1.7).setImmovable();  //add stairs
         this.stair.setScale(2.7);
 
@@ -71,6 +71,7 @@ class Level3 extends Phaser.Scene{
         this.physics.add.collider(this.enemy, stairLayer);
         this.physics.add.collider(this.key, groundLayer);
         this.physics.add.collider(this.key, propLayer);
+        
 
         this.cameras.main.setBounds(0,0, map.widthInPixels, map.heightInPixels);
 
@@ -82,7 +83,6 @@ class Level3 extends Phaser.Scene{
         this.physics.add.collider(this.hero,this.key, this.handlePlayerKeyCollision,null,this); //key collision
         this.physics.add.collider(this.hero,this.stair, this.handlePlayerStairCollision,null, this);
         this.cameras.main.startFollow(this.hero, true, 0.8, 0.8)
-
 
 
         this.swap = this.input.keyboard.addKey('V');
