@@ -11,11 +11,12 @@ let config = {
     render: { 
         pixelArt: true
     },
-    width: 960,
-	height: 768,
+    width: 840,
+	height: 700,
     scale:{ 
         // zoom: 2,
-        autoCenter: Phaser.Scale.CENTER_HORIZONTAL,
+        autoCenter: Phaser.Scale.CENTER_HORIZONTAL, 
+        
       },
     physics: {
         default: 'arcade',

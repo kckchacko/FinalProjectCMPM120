@@ -14,6 +14,14 @@ class Load extends Phaser.Scene{
         this.load.image('weapon','weapons/mani_weapon.png');
         this.load.image('key','weapons/key.png');
         this.load.image('temp_enem', 'enemies/enem_stapler_0.png');
+
+        //load ui images
+        this.load.image('heartEmpty', 'UI/heartDead.png');
+        this.load.image('heartHalf', 'UI/heartHalf.png');
+        this.load.image('heartFull', 'UI/heartFull.png');
+        this.load.image('INTERN_Label','UI/Intern.png');
+        this.load.image('DASH_Label', 'UI/Dash.png');
+        // this.load.image('')
         //this.load.tilemapTiledJSON('office','tilesheets/testTiledMap.json');
         // this.load.spritesheet('hero_idle','characters/hero_idle.png', {
         //     frameWidth: 15,

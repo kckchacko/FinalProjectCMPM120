@@ -21,7 +21,7 @@ class Hero extends Phaser.Physics.Arcade.Sprite{
         this.hurtCD = 500; //also in ms 
         this.invlunerable = false; 
         this.body.setCollideWorldBounds(true);
-        
+        this.tookDMG = false;
        
         //add movement keys 
         const {W,A,S,D,Q,E} = Phaser.Input.Keyboard.KeyCodes
@@ -172,6 +172,10 @@ class Hero extends Phaser.Physics.Arcade.Sprite{
             this.stateMachine.transition('move');
             return;
         }
+        if(hero.tookDMG == true){
+            this.stateMachine.transition('hurt');
+            return;
+        }
     }
 }
 
@@ -181,11 +185,6 @@ class Hero extends Phaser.Physics.Arcade.Sprite{
         // const { left, right, up, down, space, shift } = scene.keys;
         // const HKey = scene.keys.HKey;
 
-        // transition to swing if pressing space
-        if(Phaser.Input.Keyboard.JustDown(hero.keys.e)) {
-            this.stateMachine.transition('swing');
-            return;
-        }
 
         // transition to dash if pressing shift
         if(Phaser.Input.Keyboard.JustDown(hero.keys.q) && hero.canDash) {
@@ -279,16 +278,16 @@ class DashState extends State {
 
         switch(hero.direction) {
             case 'up':
-                hero.body.setVelocityY(hero.heroVel * 3);
-                break;
-            case 'down':
                 hero.body.setVelocityY(-hero.heroVel * 3);
                 break;
+            case 'down':
+                hero.body.setVelocityY(hero.heroVel * 3);
+                break;
             case 'left':
-                hero.body.setVelocityX(hero.heroVel * 3);
+                hero.body.setVelocityX(-hero.heroVel * 3);
                 break;
             case 'right':
-                hero.body.setVelocityX(-hero.heroVel * 3);
+                hero.body.setVelocityX(hero.heroVel * 3);
                 break;
         }
     }

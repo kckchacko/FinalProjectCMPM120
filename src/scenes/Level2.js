@@ -47,7 +47,7 @@ class Level2 extends Phaser.Scene{
         this.cameras.main.setBackgroundColor(0x00000)
         this.cameras.main.height = 768
         this.cameras.main.width = 1024
-        this.cameras.main.setPosition(0,0)
+        this.cameras.main.setPosition(-100,78);
 
         this.hero = new Hero(this, 200, 140,'hero',100 , 'down').setScale(1.5);
         this.hero.body.setSize(this.hero.width * 0.48, this.hero.height *0.68); //set collision
