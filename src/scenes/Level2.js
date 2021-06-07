@@ -22,6 +22,7 @@ class Level2 extends Phaser.Scene{
         }
         this.load.image('microtileset', 'tilesheets/wallsfloor2.png');
         this.load.image('microtileset', 'tilesheets/stair.png');
+        this.load.image('level2Label', 'UI/Level_2label.png')
     }
     create(){ 
         document.getElementById('description').innerHTML = '<h2>Play.js</h2><br>222WASD to move, E to attack, V to go to menu';
@@ -29,9 +30,10 @@ class Level2 extends Phaser.Scene{
         const map = this.add.tilemap('Level2');
         const tileset = map.addTilesetImage('wallsfloor2','microtileset'); 
         //const backgroundlayer = map.createLayer('Walls', tileset, 0, 0); 
-        const groundLayer = map.createLayer("floor", tileset, 0, 0);
-        const propLayer = map.createLayer("props", tileset, 0, 0);
-        const stairLayer = map.createLayer("stairs", tileset, 0, 0);
+        const cam_offset = 73;
+        const groundLayer = map.createLayer("floor", tileset, 0, cam_offset);
+        const propLayer = map.createLayer("props", tileset, 0, cam_offset);
+        const stairLayer = map.createLayer("stairs", tileset, 0, cam_offset);
         stairLayer.setScale(2.5);
         propLayer.setScale(2.5);
         groundLayer.setScale(2.5);
@@ -44,12 +46,25 @@ class Level2 extends Phaser.Scene{
         groundLayer.setCollisionByProperty({
             collides: true
         });     
-        this.cameras.main.setBackgroundColor(0x00000)
-        this.cameras.main.height = 768
+        this.cameras.main.setBackgroundColor(0x00000);
+        this.cameras.main.height = 1000
         this.cameras.main.width = 1024
-        this.cameras.main.setPosition(-100,78);
+        this.cameras.main.setPosition(-100,0);
 
-        this.hero = new Hero(this, 200, 140,'hero',100 , 'down').setScale(1.5);
+        //adding UI to scale
+        this.add.sprite(225,20,'INTERN_Label').setScale(2);
+        this.heartFull = this.add.sprite(225,60, 'heartFull').setScale(2);
+        this.heartHalf = this.add.sprite(225,60, 'heartHalf').setScale(2);
+        this.heartEmpty = this.add.sprite(225,60, 'heartEmpty').setScale(2);
+        this.heartHalf.visible = false;
+        this.heartEmpty.visible = false;
+        this.add.sprite(325, 20, 'DASH_Label').setScale(2);
+        this.dashFull = this.add.sprite(325, 60, 'dashFull').setScale(2);
+        this.dashEmpty = this.add.sprite(325, 60, 'dashEmpty').setScale(2);
+        this.dashEmpty.visible = false;
+        this.add.sprite(700, 50, 'level2Label').setScale(2.5);
+
+        this.hero = new Hero(this, 200, 140+ cam_offset,'hero',2 , 'down').setScale(1.5);
         this.hero.body.setSize(this.hero.width * 0.48, this.hero.height *0.68); //set collision
         this.heroFSM = new StateMachine('idle', {
             idle: new IdleState(),
@@ -59,9 +74,9 @@ class Level2 extends Phaser.Scene{
             hurt: new HurtState(),
         }, [this, this.hero]);
 
-        this.enemy = new Enemy(this, 500, 500, 'temp_enem',200,'horiz').setScale(1.5);
-        this.key = new Key(this, 544, 165, 'key',200,'horiz').setScale(1.7); //add the key
-        this.stair = new Stair(this, 860, 180, 'stair').setScale(1.7).setImmovable();  //add stairs
+        this.enemy = new Enemy(this, 500, 500+ cam_offset, 'temp_enem',200,'horiz').setScale(1.5);
+        this.key = new Key(this, 544, 165 + cam_offset, 'key',200,'horiz').setScale(1.7); //add the key
+        this.stair = new Stair(this, 860, 180 + cam_offset, 'stair').setScale(1.7).setImmovable();  //add stairs
         this.stair.setScale(2.7);
 
         this.enemy.body.setSize(this.hero.width * 0.48, this.enemy.height *0.53); //set collision
@@ -102,6 +117,8 @@ class Level2 extends Phaser.Scene{
             this.scene.start('Level3');
             this.bgm.stop();
         }
+        this.updateHealthUI(this.hero,this.heartFull, this.heartEmpty, this.heartHalf);
+        this.updateDashUI(this.hero, this.dashFull, this.dashEmpty)
     }
     handlePlayerKeyCollision(player, key){
         this.keyCount++;
@@ -117,11 +134,13 @@ class Level2 extends Phaser.Scene{
     }
     handlePlayerEnemyCollision(player, enemy){
         // if(!enemy.alreadyOverlapp)
-        player.health -= 1; 
-        player.body.setVelocityX(-enemy.speed * 2);
+        if(player.tookDMG == false){
+            player.health -= 1; 
+        }
+        player.tookDMG = true; 
+        player.body.setVelocityX(enemy.speed * 2);
         console.log("player health=",player.health);
-
-        this.cameras.main.shake(100, 0.05);
+        this.cameras.main.shake(100, 0.005);
     }
     handleWeaponEnemyCollision(weapon,enemy){
         if(weapon.activeCheck){
@@ -134,5 +153,32 @@ class Level2 extends Phaser.Scene{
     handleEnemyWallCollision(enemy){
         // enemy.body.setVelocityX(-enemy.speed);
         enemy.speed= -enemy.speed;
+    }
+    updateHealthUI(hero, full, empty, half ){
+        if(hero.health == 2){
+            full.visible = true;
+            half.visible = false;
+            empty.visible = false;
+        }
+        if(hero.health == 1 && hero.tookDMG == false){   
+            full.visible = false;
+            half.visible = true;
+            empty.visible = false;
+        }
+        if(hero.health == 0 && hero.tookDMG == false){
+            full.visible = false; 
+            half.visible = false; 
+            empty.visible = true;
+        }
+    }
+    updateDashUI(hero, full, empty){
+        if(hero.canDash == true){
+            full.visible = true;
+            empty.visible = false;
+        }
+        if(hero.canDash == false){
+            full.visible = false;
+            empty.visible = true;
+        }
     }
 }

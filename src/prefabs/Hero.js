@@ -113,39 +113,7 @@ class Hero extends Phaser.Physics.Arcade.Sprite{
 
     update(scene, hero){
         
-        // super.update();
-
-        // this.body.setVelocity(0)
-
-        // //============Movement================================
-        //     //walking, incorporate set speed later 
-        //     if(this.keys.w.isDown){
-        //         this.body.setVelocityY(-200);
-        //     }else if(this.keys.s.isDown){
-        //         this.body.setVelocityY(200);
-        //     }
-
-        //     if(this.keys.a.isDown){
-        //         this.body.setVelocityX(-200);
-        //     }else if(this.keys.d.isDown){
-        //         this.body.setVelocityX(200);
-        //     }
-
-        //     //dashing/dodge roll 
-        //     if(this.keys.q.justDown){
-        //         this.dashing = true; 
-        //         this.invlunerable = true;
-        //     }
-        //============Movement End============================
-            // //slash
-            // if(keys.e.justDown){
-
-            // }
-            
-            // //interact 
-            // if(keys.c.justDown){
-
-            // }
+    
     
     }
 
@@ -215,7 +183,10 @@ class Hero extends Phaser.Physics.Arcade.Sprite{
             hero.body.setVelocityX(hero.heroVel);
             hero.direction = 'right';
         }
-
+        if(hero.tookDMG == true){
+            this.stateMachine.transition('hurt');
+            return;
+        }
         // handle animation
         hero.anims.play(`walk-${hero.direction}`, true);
     }
@@ -250,6 +221,10 @@ class DashState extends State {
                 hero.body.setVelocityX(hero.heroVel * 3);
                 break;
         }
+        if(hero.tookDMG == true){
+            this.stateMachine.transition('hurt');
+            return;
+        }
         
         
 
@@ -260,6 +235,7 @@ class DashState extends State {
         scene.time.delayedCall(hero.dashCD, () => {
             hero.canDash = true;
         });
+
     }
 }
 
@@ -269,26 +245,16 @@ class DashState extends State {
         hero.anims.play(`walk-${hero.direction}`);
         hero.anims.stop();
         hero.setTint(0xFF0000);     // turn red
-
+        console.log("took damage");
         // set recovery timer
         scene.time.delayedCall(hero.hurtCD, () => {
             hero.clearTint();
+            hero.tookDMG = false;
             this.stateMachine.transition('idle');
         });
-
-        switch(hero.direction) {
-            case 'up':
-                hero.body.setVelocityY(-hero.heroVel * 3);
-                break;
-            case 'down':
-                hero.body.setVelocityY(hero.heroVel * 3);
-                break;
-            case 'left':
-                hero.body.setVelocityX(-hero.heroVel * 3);
-                break;
-            case 'right':
-                hero.body.setVelocityX(hero.heroVel * 3);
-                break;
+        if(hero.keys.w.isDown || hero.keys.d.isDown || hero.keys.s.isDown || hero.keys.a.isDown ) {
+            this.stateMachine.transition('move');
+            return;
         }
     }
 }

@@ -78,9 +78,10 @@ class Play extends Phaser.Scene{
         this.heartHalf.visible = false;
         this.heartEmpty.visible = false;
         this.add.sprite(325, 20, 'DASH_Label').setScale(2);
-        const dashFull = this.add.sprite(325, 50, 'dashFull').setScale(2);
-        const dashEmpty = this.add.sprite(325, 75, 'dashEmpty').setScale(2);
-        this.add.sprite(500, 20, 'level1Label').setScale(2);
+        this.dashFull = this.add.sprite(325, 60, 'dashFull').setScale(2);
+        this.dashEmpty = this.add.sprite(325, 60, 'dashEmpty').setScale(2);
+        this.dashEmpty.visible = false;
+        this.add.sprite(700, 50, 'level1Label').setScale(2.5);
 
         this.hero = new Hero(this, 200, 150 + cam_offset,'hero',2, 'down').setScale(1.5);
         this.hero.body.setSize(this.hero.width * 0.48, this.hero.height *0.68); //set collision
@@ -135,7 +136,8 @@ class Play extends Phaser.Scene{
             this.scene.start('Level2');
             this.bgm.stop();
         }
-        this.updateHealthUI(this.hero.health, this.heartFull, this.heartEmpty, this.heartHalf)
+        this.updateHealthUI(this.hero,this.heartFull, this.heartEmpty, this.heartHalf);
+        this.updateDashUI(this.hero, this.dashFull, this.dashEmpty)
          
     }
     handlePlayerKeyCollision(player, key){
@@ -152,43 +154,45 @@ class Play extends Phaser.Scene{
     }
     handlePlayerEnemyCollision(player, enemy){
         // if(!enemy.alreadyOverlapp)
-        player.health -= 1; 
+        if(player.tookDMG == false){
+            player.health -= 1; 
+        }
+        player.tookDMG = true; 
         player.body.setVelocityX(enemy.speed * 2);
         console.log("player health=",player.health);
-        
-        this.cameras.main.shake(10, 0.05);
+        this.cameras.main.shake(100, 0.005);
     }
-    // handleWeaponEnemyCollision(weapon,enemy){
-    //     if(weapon.activeCheck){
-    //         enemy.health -=2;
-    //         console.log("enemy health=",enemy.health);
-    //         // slash_sfx.play;
-    //     }
-        
-    // }
+  
     handleEnemyWallCollision(enemy){
         // enemy.body.setVelocityX(-enemy.speed);
         enemy.speed= -enemy.speed;
     }
-    updateHealthUI(hero_health, full, empty, half ){
-        if(hero_health == 2){
+    updateHealthUI(hero, full, empty, half ){
+        if(hero.health == 2){
             full.visible = true;
             half.visible = false;
             empty.visible = false;
         }
-        if(hero_health == 1){   
+        if(hero.health == 1 && hero.tookDMG == false){   
             full.visible = false;
             half.visible = true;
             empty.visible = false;
         }
-        if(hero_health == 0){
+        if(hero.health == 0 && hero.tookDMG == false){
             full.visible = false; 
             half.visible = false; 
             empty.visible = true;
         }
     }
-    updateDashUI(hero_dash_cd, full, empty){
-        
+    updateDashUI(hero, full, empty){
+        if(hero.canDash == true){
+            full.visible = true;
+            empty.visible = false;
+        }
+        if(hero.canDash == false){
+            full.visible = false;
+            empty.visible = true;
+        }
     }
 }
 

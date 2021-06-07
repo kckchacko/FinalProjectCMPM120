@@ -3,7 +3,7 @@
     init(){
 
     }
-
+     
     constructor(scene, x,y, texture,speed,type){
         super(scene, x, y, texture);
         
@@ -15,6 +15,7 @@
         this.type = type;
         this.body.onCollide = true; 
         this.body.setVelocityX(this.speed);
+        this.body.setImmovable(true);
         // scene.physics.world.on(Phaser.Physics.Arcade.Events.TILE_COLLIDE, handleWallCollision(this));
         //createAnims(); currently not implemented
        
@@ -41,6 +42,9 @@
     update(){
         // super.update();
         this.check_blocked(this, this.type);
+        // if(Math.abs(this.body.velocity.x) < this.speed){
+        //     this.setVelocityX(this.speed);
+        // }
         // if(this.)
         // console.log(this.body.blocked)
         // if(this.type = "horiz"){
