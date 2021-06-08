@@ -64,16 +64,35 @@ class Level2 extends Phaser.Scene{
         }, [this, this.hero]);
 
         this.enemy = new Enemy(this, 500, 500+ cam_offset, 'stapler_enem',200,'horiz').setScale(1.5);
+        this.enemy1 = new Enemy(this, 800, 500 + cam_offset, 'pencil_enem',200,'verti').setScale(1.25);
+        this.enemy2 = new Enemy(this, 500, 500 + cam_offset, 'printer_enem',200,'crazy').setScale(1.5);
+        this.enemy3 = new Enemy(this, 400, 100 + cam_offset, 'pencil_enem',200,'verti').setScale(1.5);
 
         this.key = new Key(this, 544, 165 + cam_offset, 'key',200,'horiz').setScale(1.7); //add the key
         this.stair = new Stair(this, 860, 180 + cam_offset, 'stair').setScale(1.7).setImmovable();  //add stairs
         this.stair.setScale(2.7);
 
         this.enemy.body.setSize(this.hero.width * 0.48, this.enemy.height *0.53); //set collision
+        this.enemy1.body.setSize(this.enemy1.width * 0.34, this.enemy1.height *0.8); //set collision
+        this.enemy2.body.setSize(this.enemy2.width * 0.68, this.enemy2.height *0.56);
+        this.enemy3.body.setSize(this.enemy3.width * 0.34, this.enemy3.height *0.8);
 
         this.physics.add.collider(this.enemy, groundLayer);
         this.physics.add.collider(this.enemy, propLayer);
         this.physics.add.collider(this.enemy, stairLayer);
+
+        this.physics.add.collider(this.enemy1, groundLayer);
+        this.physics.add.collider(this.enemy1, propLayer);
+        this.physics.add.collider(this.enemy1, stairLayer);
+
+        this.physics.add.collider(this.enemy2, groundLayer);
+        this.physics.add.collider(this.enemy2, propLayer);
+        this.physics.add.collider(this.enemy2, stairLayer);
+
+        this.physics.add.collider(this.enemy3, groundLayer);
+        this.physics.add.collider(this.enemy3, propLayer);
+        this.physics.add.collider(this.enemy3, stairLayer);
+
         this.physics.add.collider(this.key, groundLayer);
         this.physics.add.collider(this.key, propLayer);
 
@@ -84,6 +103,10 @@ class Level2 extends Phaser.Scene{
         this.physics.add.collider(this.hero, stairLayer);
 
         this.physics.add.collider(this.hero,this.enemy, this.handlePlayerEnemyCollision,null,this);
+        this.physics.add.collider(this.hero,this.enemy1, this.handlePlayerEnemyCollision,null,this);
+        this.physics.add.collider(this.hero,this.enemy2, this.handlePlayerEnemyCollision,null,this);
+        this.physics.add.collider(this.hero,this.enemy3, this.handlePlayerEnemyCollision,null,this);
+        
         this.physics.add.collider(this.hero,this.key, this.handlePlayerKeyCollision,null,this); //key collision
         this.physics.add.collider(this.hero,this.stair, this.handlePlayerStairCollision,null, this);
         this.cameras.main.startFollow(this.hero, true, 0.8, 0.8)
@@ -102,12 +125,15 @@ class Level2 extends Phaser.Scene{
         // this.hero.update();
         this.heroFSM.step();
         this.enemy.update();
+        this.enemy1.update();
+        this.enemy2.update();
+        this.enemy3.update();
         // this.weapon.update();
         if(Phaser.Input.Keyboard.JustDown(this.swap)){
             //this.scene.restart({ level: this.currentLevel + 1 });
             //this.scene.start('menuScene');
             this.scene.start('Level3');
-            this.bgm.stop();
+            //this.bgm.stop();
         }
         this.UImanager.updateHealthUI(this.hero,this.heartFull, this.heartEmpty, this.heartHalf);
         this.UImanager.updateDashUI(this.hero, this.dashFull, this.dashEmpty)

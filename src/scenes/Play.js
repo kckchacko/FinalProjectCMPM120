@@ -86,7 +86,8 @@ class Play extends Phaser.Scene{
         this.stair = new Stair(this, 860, 180 + cam_offset, 'stair', true).setScale(1.7).setImmovable();  //add stairs
         this.stair.setScale(2.7);
 
-        // this.enemy.body.setSize(this.hero.width * 0.48, this.enemy.height *0.53); //set collision
+        this.enemy1.body.setSize(this.enemy1.width * 0.34, this.enemy1.height *0.8); //set collision
+        this.enemy2.body.setSize(this.enemy2.width * 0.68, this.enemy2.height *0.56); //set collision
 
         this.physics.add.collider(this.enemy, groundLayer);
         this.physics.add.collider(this.enemy, propLayer);
@@ -110,6 +111,9 @@ class Play extends Phaser.Scene{
         this.physics.add.collider(this.hero, stairLayer);
 
         this.physics.add.collider(this.hero,this.enemy, this.handlePlayerEnemyCollision,null,this);
+        this.physics.add.collider(this.hero,this.enemy1, this.handlePlayerEnemyCollision,null,this);
+        this.physics.add.collider(this.hero,this.enemy2, this.handlePlayerEnemyCollision,null,this);
+
         this.physics.add.collider(this.hero,this.key, this.handlePlayerKeyCollision,null,this); //key collision
         this.physics.add.collider(this.hero,this.stair, this.handlePlayerStairCollision,null, this);
         this.cameras.main.startFollow(this.hero, true, 0.8, 0.8)
@@ -164,7 +168,7 @@ class Play extends Phaser.Scene{
             player.tookDMG = true;
             if(player.health == 0) {
                 this.scene.start('goScene');
-                this.bgm.stop();
+                //this.bgm.stop();
             } 
             // player.body.setVelocityX(enemy.speed * 2);
             console.log("player health=",player.health);
