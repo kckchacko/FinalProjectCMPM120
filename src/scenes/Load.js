@@ -39,10 +39,10 @@ class Load extends Phaser.Scene{
         this.load.image('DASH_Label', 'UI/Dash.png');
         this.load.image('dashEmpty','UI/DashEmpty.png');
         this.load.image('dashFull','UI/DashFull.png');
-        this.load.image('level1Label', 'UI/Level_1label.png')
-        this.load.image('level2Label', 'UI/Level_2label.png')
-        this.load.image('level3Label', 'UI/Level_3label.png')
-        this.load.image('level4Label', 'UI/Level_4label.png')
+        this.load.image('level1Label', 'UI/LEVEL_1label.png')
+        this.load.image('level2Label', 'UI/LEVEL_2label.png')
+        this.load.image('level3Label', 'UI/LEVEL_3label.png')
+        this.load.image('level4Label', 'UI/LEVEL_4label.png')
        
         //load the spritesheet
         this.load.spritesheet('hero', 'characters/hero-sheet.png', {
