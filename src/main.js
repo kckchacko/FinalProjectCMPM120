@@ -1,8 +1,5 @@
-// import Phaser from '../lib/phaser.js'
-// import Menu from './scenes/Menu.js'
-// import Load from './scenes/Load.js'
-// import Play from './scenes/Play.js'
-
+//Cult Corporate was produced by Kevin Chacko and Noor Haider 
+//credits to Trevor Lentz for "Do Not Run" (the bgm)
 
 //game config
 let config = {
