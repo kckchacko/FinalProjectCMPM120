@@ -33,92 +33,52 @@ class Hero extends Phaser.Physics.Arcade.Sprite{
             d: D, //right
             space: SPACE
         })
-
+        this.body.setSize(this.width * 0.5, this.height *0.7); //set collision
+        this.body.setOffset(-1.25,7.5);
         const anims = scene.anims; 
         //create animations
-        this.createAnims(anims); //currently not implemented
+        this.createAnims(anims); 
 
-
-
-        // this.footsteps = this.time.addEvent({
-        //     duration: 500,
-        //     repeat: -1,
-        //     callbackScope: this,
-        //     callback: function () {
-        //       if(this.player.isWalking) {
-        //         this.sound.play('playerStep');
-        //       }
-        //     }
-        //   });
     }
 
 
-    //function to create animations for the player sprite 
+    
+
     createAnims(anims){
         //idle animations 
         anims.create({
             key: 'walk-down',
             frameRate: 8,
             repeat: -1,
-            frames: this.anims.generateFrameNumbers('hero', { start: 0, end: 3 }),
+            frames: this.anims.generateFrameNumbers('hero_blonde', { start: 0, end: 3 }),
         });
         anims.create({
             key: 'walk-right',
             frameRate: 8,
             repeat: -1,
-            frames: this.anims.generateFrameNumbers('hero', { start: 4, end: 7 }),
+            frames: this.anims.generateFrameNumbers('hero_blonde', { start: 0, end: 3 }),
         });
         anims.create({
             key: 'walk-up',
             frameRate: 8,
             repeat: -1,
-            frames: this.anims.generateFrameNumbers('hero', { start: 8, end: 11 }),
+            frames: this.anims.generateFrameNumbers('hero_blonde', { start: 0, end: 3 }),
         });
         anims.create({
             key: 'walk-left',
             frameRate: 8,
             repeat: -1,
-            frames: this.anims.generateFrameNumbers('hero', { start: 12, end: 15 }),
-        });
-
-        // hero animations (swinging)
-        anims.create({
-            key: 'swing-down',
-            frameRate: 8,
-            repeat: 0,
-            frames: this.anims.generateFrameNumbers('hero', { start: 16, end: 19 }),
+            frames: this.anims.generateFrameNumbers('hero_blonde', { start: 4, end: 7 }),
         });
         anims.create({
-            key: 'swing-up',
+            key: 'idle',
             frameRate: 8,
-            repeat: 0,
-            frames: this.anims.generateFrameNumbers('hero', { start: 20, end: 23 }),
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('hero_blonde', { start: 8, end: 11 }),
         });
-        anims.create({
-            key: 'swing-right',
-            frameRate: 8,
-            repeat: 0,
-            frames: this.anims.generateFrameNumbers('hero', { start: 24, end: 27 }),
-        });
-        anims.create({
-            key: 'swing-left',
-            frameRate: 8,
-            repeat: 0,
-            frames: this.anims.generateFrameNumbers('hero', { start: 28, end: 31 }),
-        });
+    
 
     }
-
-
-    // createAnims2(anims){
-    //     //idle animations 
-    //     anims.create({
-    //         key: 'walk-right',
-    //         frameRate: 8,
-    //         repeat: -1,
-    //         frames: this.anims.generateFrameNumbers('hero', { start: 0, end: 3 }),
-    //     });
-    // }
     update(scene, hero){
         
     
@@ -130,7 +90,8 @@ class Hero extends Phaser.Physics.Arcade.Sprite{
  class IdleState extends State{
     enter(scene,hero){
         hero.body.setVelocity(0);
-        hero.anims.play(`walk-${hero.direction}`);
+        // hero.anims.play(`walk-${hero.direction}`);
+        hero.anims.play('idle');
         hero.anims.stop();
         scene.footsteps.stop();
     }
@@ -199,22 +160,13 @@ class Hero extends Phaser.Physics.Arcade.Sprite{
         hero.anims.play(`walk-${hero.direction}`, true);
     }
 }
-class SwingState extends State {
-    enter(scene, hero) {
-        hero.body.setVelocity(0);
-        hero.anims.play(`swing-${hero.direction}`);
-        hero.once('animationcomplete', () => {
-            this.stateMachine.transition('idle');
-        });
-    }
-}
 
 class DashState extends State {
     enter(scene, hero) {
         hero.body.setVelocity(0);
         scene.dash_sfx.play();
         hero.canDash = false;
-        hero.anims.play(`swing-${hero.direction}`);
+        hero.anims.play(`walk-${hero.direction}`);
         
         switch(hero.direction) {
             case 'up':

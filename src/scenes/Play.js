@@ -68,13 +68,10 @@ class Play extends Phaser.Scene{
         
 
         this.hero = new Hero(this, 200, 150 + cam_offset,'hero',2, 'down').setScale(1.5);
-        this.hero1 = new Hero(this, 200, 150 + cam_offset,'hero',2, 'down').setScale(1.5);
-
-        this.hero.body.setSize(this.hero.width * 0.48, this.hero.height *0.68); //set collision
+       
         this.heroFSM = new StateMachine('idle', {
             idle: new IdleState(),
             move: new MoveState(),
-            swing: new SwingState(),
             dash: new DashState(),
             hurt: new HurtState(),
         }, [this, this.hero]);
@@ -156,7 +153,7 @@ class Play extends Phaser.Scene{
     handlePlayerStairCollision(player){
         console.log("touching stair", this.keyCount);
         if(this.keyCount == 1) { 
-            this.scene.start('Level2');
+            this.scene.start('Level2',{music: this.bgm});
         }
     }
     handlePlayerEnemyCollision(player, enemy){

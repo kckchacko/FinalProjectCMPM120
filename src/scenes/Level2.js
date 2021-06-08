@@ -23,8 +23,9 @@ class Level2 extends Phaser.Scene{
         this.load.image('microtileset', 'tilesheets/wallsfloor2.png');
         this.load.image('microtileset', 'tilesheets/stair.png');
     }
-    create(){ 
+    create(data){ 
         this.cameras.main.fadeIn(1000, 0, 0, 0);
+        // data.music.stop();
         document.getElementById('description').innerHTML = '<h2>Play.js</h2><br>222WASD to move, E to attack, V to go to menu';
         this.keyCount = 0;
         const map = this.add.tilemap('Level2');
@@ -55,11 +56,9 @@ class Level2 extends Phaser.Scene{
         this.UImanager = new GameUI(this, 'level2Label');
 
         this.hero = new Hero(this, 200, 140+ cam_offset,'hero',2 , 'down').setScale(1.5);
-        this.hero.body.setSize(this.hero.width * 0.48, this.hero.height *0.68); //set collision
         this.heroFSM = new StateMachine('idle', {
             idle: new IdleState(),
             move: new MoveState(),
-            swing: new SwingState(),
             dash: new DashState(),
             hurt: new HurtState(),
         }, [this, this.hero]);
@@ -93,7 +92,7 @@ class Level2 extends Phaser.Scene{
         this.swap = this.input.keyboard.addKey('V');
 
 
-        this.bgm = this.sound.add('final_bgm',{volume: .7, loop: true});
+        this.bgm = data.music;
         this.dash_sfx = this.sound.add('dash_sfx', {loop: false});
         this.dmg_sfx = this.sound.add('take_damage_sfx',{loop: false});
         this.footsteps = this.sound.add('footsteps_sfx',{volume: 0.3, loop: false});
@@ -112,6 +111,7 @@ class Level2 extends Phaser.Scene{
         }
         this.UImanager.updateHealthUI(this.hero,this.heartFull, this.heartEmpty, this.heartHalf);
         this.UImanager.updateDashUI(this.hero, this.dashFull, this.dashEmpty)
+        this.stair.update();
     }
     handlePlayerKeyCollision(player, key){
         this.keyCount++;
@@ -125,7 +125,7 @@ class Level2 extends Phaser.Scene{
     handlePlayerStairCollision(player){
         console.log("touching stair", this.keyCount);
         if(this.keyCount == 1) { 
-            this.scene.start('Level3');
+            this.scene.start('Level3', {music: this.bgm});
         }
     }
     handlePlayerEnemyCollision(player, enemy){

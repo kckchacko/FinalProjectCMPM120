@@ -46,15 +46,10 @@ class Load extends Phaser.Scene{
         this.load.image('level4Label', 'UI/LEVEL_4label.png')
        
         //load the spritesheet
-        this.load.spritesheet('hero', 'characters/hero-sheet.png', {
-            frameWidth: 32,
-            frameHeight: 32,
+        this.load.spritesheet('hero_blonde', 'characters/hero_sheet.png',{
+            frameWidth: 16,
+            frameHeight: 28,
         });
-
-        // this.load.spritesheet('hero_blonde', 'characters/hero_run.png',{
-        //     frameWidth: 32,
-        //     frameHeight: 32,
-        // }
         // this.load.atlas('hero_run_atlas', 'characters/hero_run.png', 'characters/hero_run.json');
 
         this.load.audio('dash_sfx', 'sfx/dash.wav');
@@ -63,6 +58,7 @@ class Load extends Phaser.Scene{
         this.load.audio('take_damage_sfx', 'sfx/take_damage.wav');
         this.load.audio('footsteps_sfx', 'sfx/footstep_loop.wav');
         this.load.audio('final_bgm', 'sfx/DoNotRun.mp3')
+        this.load.audio('victory_sfx', 'sfx/victory.wav');
     }
     create(){
         //create animations here

@@ -22,7 +22,8 @@ class Level3 extends Phaser.Scene{
         }
     
     }
-    create(){ 
+    create(data){ 
+
         this.cameras.main.fadeIn(1000, 0, 0, 0);
         document.getElementById('description').innerHTML = '<h2>Play.js</h2><br>333WASD to move, E to attack, V to go to menu';
         this.keyCount = 0;
@@ -55,11 +56,9 @@ class Level3 extends Phaser.Scene{
         this.UImanager = new GameUI(this, 'level3Label');
 
         this.hero = new Hero(this, 200, 140+cam_offset,'hero',2 , 'down').setScale(1.5);
-        this.hero.body.setSize(this.hero.width * 0.48, this.hero.height *0.68); //set collision
         this.heroFSM = new StateMachine('idle', {
             idle: new IdleState(),
             move: new MoveState(),
-            swing: new SwingState(),
             dash: new DashState(),
             hurt: new HurtState(),
         }, [this, this.hero]);
@@ -93,11 +92,10 @@ class Level3 extends Phaser.Scene{
         this.swap = this.input.keyboard.addKey('V');
 
 
-        this.bgm = this.sound.add('final_bgm',{volume: .7, loop: true});
         this.dash_sfx = this.sound.add('dash_sfx', {loop: false});
         this.dmg_sfx = this.sound.add('take_damage_sfx',{loop: false});
         this.footsteps = this.sound.add('footsteps_sfx',{volume: 0.3, loop: false});
-        this.bgm.play();
+        this.bgm = data.music;
         
     }
     update(time, delta){
@@ -121,7 +119,7 @@ class Level3 extends Phaser.Scene{
     handlePlayerStairCollision(player){
         console.log("touching stair", this.keyCount);
         if(this.keyCount == 1) { 
-            this.scene.start('Level4');
+            this.scene.start('Level4',{music: this.bgm} );
         }
     }
     handlePlayerEnemyCollision(player, enemy){
