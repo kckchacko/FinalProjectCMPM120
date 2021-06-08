@@ -1,10 +1,3 @@
-// import Hero from '../prefabs/Hero.js'
-// import Enemy from '../prefabs/Enemy.js'
-// import Weapon from '../prefabs/Weapon.js'
-// import IdleState from '../prefabs/Hero.js'
-// import MoveState from '../prefabs/Hero.js'
-
-// export default class Play extends Phaser.Scene{
 class Play extends Phaser.Scene{  
     constructor(){
         super('playScene');
@@ -158,7 +151,7 @@ class Play extends Phaser.Scene{
     handlePlayerStairCollision(player){
         console.log("touching stair", this.keyCount);
         if(this.keyCount == 1) { 
-            this.scene.start('Level2',{music: this.bgm});
+            this.scene.start('Level2',{music: this.bgm, restart: false});
         }
     }
     handlePlayerEnemyCollision(player, enemy){
@@ -170,7 +163,7 @@ class Play extends Phaser.Scene{
             if(player.health == 0) {
                 this.bgm.stop()
                 this.lose_sfx.play();
-                this.scene.start('goScene');
+                this.scene.start('goScene',{music: this.bgm, level: 'first'});
                 //this.bgm.stop();
             } 
             // player.body.setVelocityX(enemy.speed * 2);

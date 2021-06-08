@@ -120,6 +120,10 @@ class Level3 extends Phaser.Scene{
         this.footsteps = this.sound.add('footsteps_sfx',{volume: 0.3, loop: false});
         this.lose_sfx = this.sound.add('lose_sfx',{volume: 0.3, loop: false});
         this.bgm = data.music;
+        this.restarted = data.restart;
+        if(this.restarted){
+            this.bgm.play();
+        }
         
     }
     update(time, delta){
@@ -160,7 +164,7 @@ class Level3 extends Phaser.Scene{
             if(player.health == 0) {
                 this.bgm.stop();
                 this.lose_sfx.play();
-                this.scene.start('goScene');
+                this.scene.start('goScene',{music: this.bgm, level: 'third'});
             } 
             // player.body.setVelocityX(enemy.speed * 2);
             console.log("player health=",player.health);

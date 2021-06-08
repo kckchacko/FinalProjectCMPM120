@@ -117,6 +117,10 @@ class Level2 extends Phaser.Scene{
 
 
         this.bgm = data.music;
+        this.restarted = data.restart; 
+        if(this.restarted){
+            this.bgm.play();
+        }
         this.dash_sfx = this.sound.add('dash_sfx', {loop: false});
         this.dmg_sfx = this.sound.add('take_damage_sfx',{loop: false});
         this.footsteps = this.sound.add('footsteps_sfx',{volume: 0.3, loop: false});
@@ -153,7 +157,7 @@ class Level2 extends Phaser.Scene{
     handlePlayerStairCollision(player){
         console.log("touching stair", this.keyCount);
         if(this.keyCount == 1) { 
-            this.scene.start('Level3', {music: this.bgm});
+            this.scene.start('Level3', {music: this.bgm, restart: false});
         }
     }
     handlePlayerEnemyCollision(player, enemy){
@@ -165,7 +169,7 @@ class Level2 extends Phaser.Scene{
             if(player.health == 0) {
                 this.bgm.stop();
                 this.lose_sfx.play();
-                this.scene.start('goScene');
+                this.scene.start('goScene',{music: this.bgm, level: 'second'});
                 
             }  
             // player.body.setVelocityX(enemy.speed * 2);
