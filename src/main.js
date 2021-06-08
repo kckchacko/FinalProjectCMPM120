@@ -7,7 +7,7 @@
 //game config
 let config = {
     parent: 'phaser-game',
-    type: Phaser.CANVAS,
+    type: Phaser.WebGL,
     render: { 
         pixelArt: true
     },
@@ -29,3 +29,8 @@ let config = {
 };
 
 const game = new Phaser.Game(config);
+
+let centerY = game.config.height/2;
+let centerX = game.config.weight/2;
+let w = game.config.width;
+let h = game.config.height;

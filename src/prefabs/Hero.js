@@ -204,7 +204,7 @@ class SwingState extends State {
 class DashState extends State {
     enter(scene, hero) {
         hero.body.setVelocity(0)
-        
+
         hero.canDash = false;
         hero.anims.play(`swing-${hero.direction}`);
         switch(hero.direction) {
@@ -241,15 +241,33 @@ class DashState extends State {
 
  class HurtState extends State {
     enter(scene, hero) {
-        hero.body.setVelocity(0);
+        switch(hero.direction) {
+            case 'up':
+                hero.body.setVelocity(hero.heroVel,hero.heroVel);
+                break;
+            case 'down':
+                hero.body.setVelocity(-hero.heroVel,-hero.heroVel);
+                break;
+            case 'left':
+                hero.body.setVelocity(hero.heroVel,hero.heroVel);
+                break;
+            case 'right':
+                hero.body.setVelocity(-hero.heroVel,-hero.heroVel);
+                break;
+        }
+        // hero.body.setVelocity(hero.heroVel,hero.heroVel);
+        // hero.body.setVelocityX(hero.heroVel * 4);
+
         hero.anims.play(`walk-${hero.direction}`);
         hero.anims.stop();
-        hero.setTint(0xFF0000);     // turn red
+        hero.setTint(0xff0000);     // turn red
+        hero.setImmovable(true);
         console.log("took damage");
         // set recovery timer
         scene.time.delayedCall(hero.hurtCD, () => {
-            hero.clearTint();
             hero.tookDMG = false;
+            hero.clearTint()
+            hero.setImmovable(false);
             this.stateMachine.transition('idle');
         });
         if(hero.keys.w.isDown || hero.keys.d.isDown || hero.keys.s.isDown || hero.keys.a.isDown ) {

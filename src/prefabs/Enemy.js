@@ -14,22 +14,21 @@
         this.speed = speed; 
         this.type = type;
         this.body.onCollide = true; 
-        this.body.setVelocityX(this.speed);
+        switch(type){
+            case 'horiz':
+                this.body.setVelocityX(this.speed);
+                break;
+            case 'verti':
+                this.body.setVelocityY(this.speed);
+                break;
+            case 'crazy' :
+                this.body.setVelocity(this.speed, this.speed);
+                break;
+            default:
+                return;
+        }
         this.body.setImmovable(true);
-        // scene.physics.world.on(Phaser.Physics.Arcade.Events.TILE_COLLIDE, handleWallCollision(this));
-        //createAnims(); currently not implemented
-       
-        //add movement keys 
-        // const {W,A,S,D,Q} = Phaser.Input.Keyboard.KeyCodes
-        // this.keys = scene.input.keyboard.addKeys({
-        //     w: W, //up 
-        //     a: A, //left
-        //     s: S, //down
-        //     d: D, //right
-        //     q: Q //dash
-        //     // e: E, //slash
-        //     // c: C  //interact (items)
-        // })
+
     }
 
     
@@ -42,21 +41,7 @@
     update(){
         // super.update();
         this.check_blocked(this, this.type);
-        // if(Math.abs(this.body.velocity.x) < this.speed){
-        //     this.setVelocityX(this.speed);
-        // }
-        // if(this.)
-        // console.log(this.body.blocked)
-        // if(this.type = "horiz"){
-            
-        // }
-        // if(this.type = "verti"){
-        //     this.body.setVelocityY(this.speed);
-        // }
-        // this.body.setVelocity(0);
         
-        
-    
     }
 
     check_blocked(enemy, enem_type ){
@@ -64,17 +49,55 @@
             case 'horiz':
                 if(enemy.body.blocked.left){
                     enemy.speed = -this.speed 
+                    enemy.flipX = false;
                     enemy.body.setVelocityX(this.speed);
                 }
                 if(enemy.body.blocked.right ){
                     enemy.speed = -this.speed 
+                    enemy.flipX = true;
                     enemy.body.setVelocityX(this.speed);
-                    // console.log("hello");
+                    // console.log(enemy.body.blocked);
         
                 }
                 break;
             case 'verti':
+                if(enemy.body.blocked.up){
+                    enemy.speed = -this.speed 
+                    // enemy.flipX = false;
+                    enemy.body.setVelocityY(this.speed);
+                }
+                if(enemy.body.blocked.down){
+                    enemy.speed = -this.speed 
+                    // enemy.flipX = true;
+                    enemy.body.setVelocityY(this.speed);
+                    // console.log("hello");
+        
+                }
                 break;
+            case 'crazy':
+                if(enemy.body.blocked.left){
+                    enemy.speed = -this.speed 
+                    enemy.flipX = false;
+                    enemy.body.setVelocityX(this.speed);
+                }
+                if(enemy.body.blocked.right ){
+                    enemy.speed = -this.speed 
+                    enemy.flipX = true;
+                    enemy.body.setVelocityX(this.speed);
+                    
+                }
+                if(enemy.body.blocked.up){
+                    enemy.speed = -this.speed 
+                    // enemy.flipX = false;
+                    enemy.body.setVelocityY(this.speed);
+                }
+                if(enemy.body.blocked.down){
+                    enemy.speed = -this.speed 
+                    // enemy.flipX = true;
+                    enemy.body.setVelocityY(this.speed);
+                    // console.log("hello");
+        
+                }
             default:
                 return;
         }
@@ -82,6 +105,6 @@
     }
 
 }
-function handleWallCollision(enemy){
-    enemy.body.setVelocityX(-this.speed);
-}
+// function handleWallCollision(enemy){
+//     enemy.body.setVelocityX(-this.speed);
+// }

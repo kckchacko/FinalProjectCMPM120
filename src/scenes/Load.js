@@ -5,30 +5,43 @@ class Load extends Phaser.Scene{
     }
 
     preload(){
+        let loadingBar = this.add.graphics();
+        this.load.on('progress', (value) => {
+            loadingBar.clear();                                 
+            loadingBar.fillStyle(0xFFFFFF, 1);                  
+            loadingBar.fillRect(0, centerY, w * value, 5);  
+        });
+        this.load.on('complete', () => {
+            loadingBar.destroy();
+        });
+
         this.load.path = './assets/'; 
 
-        //load atlases,images, and spritesheets and audio here
-        // assets/tilesheets/testTiledMap.json
-        // this.load.image('hero', 'characters/hero_idle_0.png');
-        //this.load.image('tiles', '../assets/tilesheets/officeImage.png')
+        this.load.image('creditsScreen','screens/cultCorporateCredits.png');
+        this.load.image('titleScreen', 'screens/cultCorporateTitle.png');
+        this.load.image('gameOverScreen', 'screens/cultCorporateGameOver.png');
+        this.load.image('winScreen', 'screens/cultCorporateWinScreen.png');
+        
         this.load.image('weapon','weapons/mani_weapon.png');
         this.load.image('key','weapons/key.png');
         this.load.image('temp_enem', 'enemies/enem_stapler_0.png');
 
         //load ui images
+        this.load.image('microtileset', 'tilesheets/wallsfloor2.png');
+        this.load.image('stair', 'tilesheets/stair.png');
         this.load.image('heartEmpty', 'UI/heartDead.png');
         this.load.image('heartHalf', 'UI/heartHalf.png');
         this.load.image('heartFull', 'UI/heartFull.png');
         this.load.image('INTERN_Label','UI/Intern.png');
         this.load.image('DASH_Label', 'UI/Dash.png');
-        // this.load.image('')
-        //this.load.tilemapTiledJSON('office','tilesheets/testTiledMap.json');
-        // this.load.spritesheet('hero_idle','characters/hero_idle.png', {
-        //     frameWidth: 15,
-        //     frameHeight: 19,
-        //     startFrame: 1,
-        //     endFrame: 4
-        // } );
+        this.load.image('dashEmpty','UI/DashEmpty.png');
+        this.load.image('dashFull','UI/DashFull.png');
+        this.load.image('level1Label', 'UI/Level_1label.png')
+        this.load.image('level2Label', 'UI/Level_2label.png')
+        this.load.image('level3Label', 'UI/Level_3label.png')
+        this.load.image('level4Label', 'UI/Level_4label.png')
+       
+        //load the spritesheet
         this.load.spritesheet('hero', 'characters/hero-sheet.png', {
             frameWidth: 32,
             frameHeight: 32,

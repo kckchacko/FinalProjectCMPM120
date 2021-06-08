@@ -4,10 +4,11 @@ class Stair extends Phaser.Physics.Arcade.Sprite{
 
     }
 
-    constructor(scene, x,y, texture){
+    constructor(scene, x,y, texture, locked){
         super(scene, x, y, texture);
         scene.add.existing(this);
         scene.physics.add.existing(this); 
+        this.locked = locked;
         //set speed for enemy
         this.body.onCollide = true; 
     }  
@@ -15,7 +16,11 @@ class Stair extends Phaser.Physics.Arcade.Sprite{
     update(){
         // super.update();
         //this.check_blocked(this, this.type);
-    
+        if(this.locked == true){
+            this.setTint(0x000000)
+        }else{
+            this.clearTint()
+        }
     }
 
 }

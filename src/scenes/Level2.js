@@ -14,15 +14,14 @@ class Level2 extends Phaser.Scene{
             case 1: 
                 this.load.tilemapTiledJSON('Level2', "tilesheets/LTwo.json");
             case 2:
-                this.load.tilemapTiledJSON('Level', "tilesheets/LThree.json");
+                this.load.tilemapTiledJSON('Level3', "tilesheets/LThree.json");
             case 3:
-                this.load.tilemapTiledJSON('Level', "tilesheets/LFour.json");
+                this.load.tilemapTiledJSON('Level4', "tilesheets/LFour.json");
             default:
                 this.load.tilemapTiledJSON('Level', "tilesheets/LOne.json");
         }
         this.load.image('microtileset', 'tilesheets/wallsfloor2.png');
         this.load.image('microtileset', 'tilesheets/stair.png');
-        this.load.image('level2Label', 'UI/Level_2label.png')
     }
     create(){ 
         document.getElementById('description').innerHTML = '<h2>Play.js</h2><br>222WASD to move, E to attack, V to go to menu';
@@ -49,20 +48,10 @@ class Level2 extends Phaser.Scene{
         this.cameras.main.setBackgroundColor(0x00000);
         this.cameras.main.height = 1000
         this.cameras.main.width = 1024
-        this.cameras.main.setPosition(-100,0);
+        this.cameras.main.setPosition(-60,0);
 
-        //adding UI to scale
-        this.add.sprite(225,20,'INTERN_Label').setScale(2);
-        this.heartFull = this.add.sprite(225,60, 'heartFull').setScale(2);
-        this.heartHalf = this.add.sprite(225,60, 'heartHalf').setScale(2);
-        this.heartEmpty = this.add.sprite(225,60, 'heartEmpty').setScale(2);
-        this.heartHalf.visible = false;
-        this.heartEmpty.visible = false;
-        this.add.sprite(325, 20, 'DASH_Label').setScale(2);
-        this.dashFull = this.add.sprite(325, 60, 'dashFull').setScale(2);
-        this.dashEmpty = this.add.sprite(325, 60, 'dashEmpty').setScale(2);
-        this.dashEmpty.visible = false;
-        this.add.sprite(700, 50, 'level2Label').setScale(2.5);
+        //adding UI 
+        this.UImanager = new GameUI(this, 'level2Label');
 
         this.hero = new Hero(this, 200, 140+ cam_offset,'hero',2 , 'down').setScale(1.5);
         this.hero.body.setSize(this.hero.width * 0.48, this.hero.height *0.68); //set collision
@@ -75,6 +64,7 @@ class Level2 extends Phaser.Scene{
         }, [this, this.hero]);
 
         this.enemy = new Enemy(this, 500, 500+ cam_offset, 'temp_enem',200,'horiz').setScale(1.5);
+        
         this.key = new Key(this, 544, 165 + cam_offset, 'key',200,'horiz').setScale(1.7); //add the key
         this.stair = new Stair(this, 860, 180 + cam_offset, 'stair').setScale(1.7).setImmovable();  //add stairs
         this.stair.setScale(2.7);
@@ -123,62 +113,33 @@ class Level2 extends Phaser.Scene{
     handlePlayerKeyCollision(player, key){
         this.keyCount++;
         this.key.destroy();
+        if(this.keyCount >= this.totalKeys){
+            this.stair.locked = false;
+        }
         console.log("Key Collected", this.keyCount);
     }
 
     handlePlayerStairCollision(player){
         console.log("touching stair", this.keyCount);
         if(this.keyCount == 1) { 
-            this.scene.start('Level3');
+            this.scene.start('Level2');
         }
     }
     handlePlayerEnemyCollision(player, enemy){
         // if(!enemy.alreadyOverlapp)
         if(player.tookDMG == false){
             player.health -= 1; 
+            player.tookDMG = true; 
+            // player.body.setVelocityX(enemy.speed * 2);
+            console.log("player health=",player.health);
+            this.cameras.main.shake(100, 0.005);
         }
-        player.tookDMG = true; 
-        player.body.setVelocityX(enemy.speed * 2);
-        console.log("player health=",player.health);
-        this.cameras.main.shake(100, 0.005);
-    }
-    handleWeaponEnemyCollision(weapon,enemy){
-        if(weapon.activeCheck){
-            enemy.health -=2;
-            console.log("enemy health=",enemy.health);
-            // slash_sfx.play;
-        }
+        
         
     }
     handleEnemyWallCollision(enemy){
         // enemy.body.setVelocityX(-enemy.speed);
         enemy.speed= -enemy.speed;
     }
-    updateHealthUI(hero, full, empty, half ){
-        if(hero.health == 2){
-            full.visible = true;
-            half.visible = false;
-            empty.visible = false;
-        }
-        if(hero.health == 1 && hero.tookDMG == false){   
-            full.visible = false;
-            half.visible = true;
-            empty.visible = false;
-        }
-        if(hero.health == 0 && hero.tookDMG == false){
-            full.visible = false; 
-            half.visible = false; 
-            empty.visible = true;
-        }
-    }
-    updateDashUI(hero, full, empty){
-        if(hero.canDash == true){
-            full.visible = true;
-            empty.visible = false;
-        }
-        if(hero.canDash == false){
-            full.visible = false;
-            empty.visible = true;
-        }
-    }
+    
 }

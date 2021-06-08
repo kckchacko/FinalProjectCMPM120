@@ -20,9 +20,7 @@ class Level3 extends Phaser.Scene{
             default:
                 this.load.tilemapTiledJSON('Level', "tilesheets/LOne.json");
         }
-        this.load.image('microtileset', 'tilesheets/wallsfloor2.png');
-        this.load.image('microtileset', 'tilesheets/stair.png');
-        this.load.image('level3Label', 'UI/Level_3label.png')
+    
     }
     create(){ 
         document.getElementById('description').innerHTML = '<h2>Play.js</h2><br>333WASD to move, E to attack, V to go to menu';
@@ -50,19 +48,10 @@ class Level3 extends Phaser.Scene{
         this.cameras.main.setBackgroundColor(0x00000);
         this.cameras.main.height = 1000
         this.cameras.main.width = 1024
-        this.cameras.main.setPosition(-100,0);
-        //adding UI to scale
-        this.add.sprite(225,20,'INTERN_Label').setScale(2);
-        this.heartFull = this.add.sprite(225,60, 'heartFull').setScale(2);
-        this.heartHalf = this.add.sprite(225,60, 'heartHalf').setScale(2);
-        this.heartEmpty = this.add.sprite(225,60, 'heartEmpty').setScale(2);
-        this.heartHalf.visible = false;
-        this.heartEmpty.visible = false;
-        this.add.sprite(325, 20, 'DASH_Label').setScale(2);
-        this.dashFull = this.add.sprite(325, 60, 'dashFull').setScale(2);
-        this.dashEmpty = this.add.sprite(325, 60, 'dashEmpty').setScale(2);
-        this.dashEmpty.visible = false;
-        this.add.sprite(700, 50, 'level3Label').setScale(2.5);
+        this.cameras.main.setPosition(-60,0);
+
+        //adding UI 
+        this.UImanager = new GameUI(this, 'level3Label');
 
         this.hero = new Hero(this, 200, 140+cam_offset,'hero',2 , 'down').setScale(1.5);
         this.hero.body.setSize(this.hero.width * 0.48, this.hero.height *0.68); //set collision
@@ -166,7 +155,7 @@ class Level3 extends Phaser.Scene{
             half.visible = true;
             empty.visible = false;
         }
-        if(hero.health == 0 && hero.tookDMG == false){
+        if(hero.health <= 0 && hero.tookDMG == false){
             full.visible = false; 
             half.visible = false; 
             empty.visible = true;
