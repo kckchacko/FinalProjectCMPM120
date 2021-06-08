@@ -130,7 +130,10 @@ class Level2 extends Phaser.Scene{
         // if(!enemy.alreadyOverlapp)
         if(player.tookDMG == false){
             player.health -= 1; 
-            player.tookDMG = true; 
+            player.tookDMG = true;
+            if(player.health == 0) {
+                this.scene.start('goScene');
+            }  
             // player.body.setVelocityX(enemy.speed * 2);
             console.log("player health=",player.health);
             this.cameras.main.shake(100, 0.005);

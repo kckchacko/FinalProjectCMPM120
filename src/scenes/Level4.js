@@ -133,6 +133,9 @@ class Level4 extends Phaser.Scene{
             player.health -= 1; 
         }
         player.tookDMG = true; 
+        if(player.health == 0) {
+            this.scene.start('goScene');
+        } 
         player.body.setVelocityX(enemy.speed * 2);
         console.log("player health=",player.health);
         this.cameras.main.shake(100, 0.005);
