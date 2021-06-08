@@ -122,7 +122,7 @@ class Level2 extends Phaser.Scene{
     handlePlayerStairCollision(player){
         console.log("touching stair", this.keyCount);
         if(this.keyCount == 1) { 
-            this.scene.start('Level2');
+            this.scene.start('Level3');
         }
     }
     handlePlayerEnemyCollision(player, enemy){

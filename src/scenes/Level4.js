@@ -148,58 +148,5 @@ class Level4 extends Phaser.Scene{
         // enemy.body.setVelocityX(-enemy.speed);
         enemy.speed= -enemy.speed;
     }
-    updateHealthUI(hero, full, empty, half ){
-        if(hero.health == 2){
-            full.visible = true;
-            half.visible = false;
-            empty.visible = false;
-        }
-        if(hero.health == 1 && hero.tookDMG == false){   
-            full.visible = false;
-            half.visible = true;
-            empty.visible = false;
-        }
-        if(hero.health == 0 && hero.tookDMG == false){
-            full.visible = false; 
-            half.visible = false; 
-            empty.visible = true;
-        }
-    }
-    updateDashUI(hero, full, empty){
-        if(hero.canDash == true){
-            full.visible = true;
-            empty.visible = false;
-        }
-        if(hero.canDash == false){
-            full.visible = false;
-            empty.visible = true;
-        }
-    }
-    updateHealthUI(hero, full, empty, half ){
-        if(hero.health == 2){
-            full.visible = true;
-            half.visible = false;
-            empty.visible = false;
-        }
-        if(hero.health == 1 && hero.tookDMG == false){   
-            full.visible = false;
-            half.visible = true;
-            empty.visible = false;
-        }
-        if(hero.health <= 0 && hero.tookDMG == false){
-            full.visible = false; 
-            half.visible = false; 
-            empty.visible = true;
-        }
-    }
-    updateDashUI(hero, full, empty){
-        if(hero.canDash == true){
-            full.visible = true;
-            empty.visible = false;
-        }
-        if(hero.canDash == false){
-            full.visible = false;
-            empty.visible = true;
-        }
-    }
+   
 }
