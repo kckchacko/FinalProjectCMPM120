@@ -26,6 +26,7 @@ class Level4 extends Phaser.Scene{
 
     }
     create(){ 
+        this.cameras.main.fadeIn(1000, 0, 0, 0);
         // document.getElementById('description').innerHTML = '<h2>Play.js</h2><br>4444WASD to move, E to attack, V to go to menu';
         this.keyCount = 0;
         const map = this.add.tilemap('Level4');

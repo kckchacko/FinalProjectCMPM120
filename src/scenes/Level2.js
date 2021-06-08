@@ -24,6 +24,7 @@ class Level2 extends Phaser.Scene{
         this.load.image('microtileset', 'tilesheets/stair.png');
     }
     create(){ 
+        this.cameras.main.fadeIn(1000, 0, 0, 0);
         document.getElementById('description').innerHTML = '<h2>Play.js</h2><br>222WASD to move, E to attack, V to go to menu';
         this.keyCount = 0;
         const map = this.add.tilemap('Level2');

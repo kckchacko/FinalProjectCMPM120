@@ -35,6 +35,7 @@ class Play extends Phaser.Scene{
         
     }
     create(){ 
+        this.cameras.main.fadeIn(1000, 0, 0, 0);
         document.getElementById('description').innerHTML = '<h2>Play.js</h2><br>WASD to move, E to attack, V to go to menu';
         this.keyCount = 0;
         this.totalKeys = 1;

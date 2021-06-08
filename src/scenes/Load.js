@@ -17,10 +17,11 @@ class Load extends Phaser.Scene{
 
         this.load.path = './assets/'; 
 
-        this.load.image('creditsScreen','screens/cultCorporateCredits.png');
-        this.load.image('titleScreen', 'screens/cultCorporateTitle.png');
-        this.load.image('gameOverScreen', 'screens/cultCorporateGameOver.png');
-        this.load.image('winScreen', 'screens/cultCorporateWinScreen.png');
+        this.load.image('creditsScreen','screens/Credits.png');
+        this.load.image('titleScreen', 'screens/Title.png');
+        this.load.image('gameOverScreen', 'screens/Game Over.png');
+        this.load.image('winScreen', 'screens/EndScreen.png');
+        this.load.image('story', 'screens/Story.png');
         
         this.load.image('weapon','weapons/mani_weapon.png');
         this.load.image('key','weapons/key.png');
