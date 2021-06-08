@@ -17,7 +17,7 @@ class Load extends Phaser.Scene{
 
         this.load.path = './assets/'; 
 
-        this.load.image('creditsScreen','screens/Credits.png');
+        this.load.image('credits','screens/Credits.png');
         this.load.image('titleScreen', 'screens/Title.png');
         this.load.image('gameOverScreen', 'screens/Game Over.png');
         this.load.image('winScreen', 'screens/EndScreen.png');

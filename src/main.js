@@ -25,7 +25,7 @@ let config = {
             debug: true,
         }
     },
-    scene: [Load, Menu, Play, Level2, Level3, Level4],
+    scene: [Load, Menu, Play, Level2, Level3, Level4, Story, End, Credits, GameOver],
 };
 
 const game = new Phaser.Game(config);
