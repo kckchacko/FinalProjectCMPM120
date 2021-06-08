@@ -93,8 +93,10 @@ class Level2 extends Phaser.Scene{
         this.swap = this.input.keyboard.addKey('V');
 
 
-        // this.bgm = this.sound.add('temp_bgm',{volume: 0.1, loop: true});
-        // this.bgm.play();
+        this.bgm = this.sound.add('final_bgm',{volume: .7, loop: true});
+        this.dash_sfx = this.sound.add('dash_sfx', {loop: false});
+        this.dmg_sfx = this.sound.add('take_damage_sfx',{loop: false});
+        this.footsteps = this.sound.add('footsteps_sfx',{volume: 0.3, loop: false});
         
     }
     update(time, delta){
@@ -129,10 +131,12 @@ class Level2 extends Phaser.Scene{
     handlePlayerEnemyCollision(player, enemy){
         // if(!enemy.alreadyOverlapp)
         if(player.tookDMG == false){
+            this.dmg_sfx.play();
             player.health -= 1; 
             player.tookDMG = true;
             if(player.health == 0) {
                 this.scene.start('goScene');
+                this.bgm.stop();
             }  
             // player.body.setVelocityX(enemy.speed * 2);
             console.log("player health=",player.health);

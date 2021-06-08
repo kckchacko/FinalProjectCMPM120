@@ -25,15 +25,13 @@ class Hero extends Phaser.Physics.Arcade.Sprite{
         this.footsteps_played = false;
         this.footsteps_cd = 700;
         //add movement keys 
-        const {W,A,S,D,Q,E} = Phaser.Input.Keyboard.KeyCodes
+        const {W,A,S,D,SPACE} = Phaser.Input.Keyboard.KeyCodes
         this.keys = scene.input.keyboard.addKeys({
             w: W, //up 
             a: A, //left
             s: S, //down
             d: D, //right
-            q: Q, //dash
-            e: E, //slash
-            // c: C  //interact (items)
+            space: SPACE
         })
 
         const anims = scene.anims; 
@@ -112,6 +110,15 @@ class Hero extends Phaser.Physics.Arcade.Sprite{
     }
 
 
+    // createAnims2(anims){
+    //     //idle animations 
+    //     anims.create({
+    //         key: 'walk-right',
+    //         frameRate: 8,
+    //         repeat: -1,
+    //         frames: this.anims.generateFrameNumbers('hero', { start: 0, end: 3 }),
+    //     });
+    // }
     update(scene, hero){
         
     
@@ -128,12 +135,8 @@ class Hero extends Phaser.Physics.Arcade.Sprite{
         scene.footsteps.stop();
     }
     execute(scene,hero){
-        if(Phaser.Input.Keyboard.JustDown(hero.keys.e)){
-            this.stateMachine.transition('swing');
-            return;
-        }
-
-        if(Phaser.Input.Keyboard.JustDown(hero.keys.q) && hero.canDash){
+       
+        if(Phaser.Input.Keyboard.JustDown(hero.keys.space) && hero.canDash){
             this.stateMachine.transition('dash');
             return;
         }
@@ -152,7 +155,7 @@ class Hero extends Phaser.Physics.Arcade.Sprite{
     execute(scene, hero) {
         
         // transition to dash if pressing shift
-        if(Phaser.Input.Keyboard.JustDown(hero.keys.q) && hero.canDash) {
+        if(Phaser.Input.Keyboard.JustDown(hero.keys.space) && hero.canDash) {
             
             this.stateMachine.transition('dash');
             return;

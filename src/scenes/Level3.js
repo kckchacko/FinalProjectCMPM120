@@ -93,23 +93,24 @@ class Level3 extends Phaser.Scene{
         this.swap = this.input.keyboard.addKey('V');
 
 
-        // this.bgm = this.sound.add('temp_bgm',{volume: 0.1, loop: true});
-        // this.bgm.play();
+        this.bgm = this.sound.add('final_bgm',{volume: .7, loop: true});
+        this.dash_sfx = this.sound.add('dash_sfx', {loop: false});
+        this.dmg_sfx = this.sound.add('take_damage_sfx',{loop: false});
+        this.footsteps = this.sound.add('footsteps_sfx',{volume: 0.3, loop: false});
+        this.bgm.play();
         
     }
     update(time, delta){
-        // this.hero.update();
+        
         this.heroFSM.step();
         this.enemy.update();
-        // this.weapon.update();
         if(Phaser.Input.Keyboard.JustDown(this.swap)){
-            //this.scene.restart({ level: this.currentLevel + 1 });
-            //this.scene.start('menuScene');
             this.scene.start('Level4');
             this.bgm.stop();
         }
         this.UImanager.updateHealthUI(this.hero,this.heartFull, this.heartEmpty, this.heartHalf);
         this.UImanager.updateDashUI(this.hero, this.dashFull, this.dashEmpty)
+        this.stair.update();
     }
     handlePlayerKeyCollision(player, key){
         this.keyCount++;
@@ -124,55 +125,21 @@ class Level3 extends Phaser.Scene{
         }
     }
     handlePlayerEnemyCollision(player, enemy){
-        // if(!enemy.alreadyOverlapp)
         if(player.tookDMG == false){
+            this.dmg_sfx.play();
             player.health -= 1; 
+            player.tookDMG = true;
+            if(player.health == 0) {
+                this.scene.start('goScene');
+                this.bgm.stop();
+            } 
+            // player.body.setVelocityX(enemy.speed * 2);
+            console.log("player health=",player.health);
+            this.cameras.main.shake(100, 0.005);
         }
-        player.tookDMG = true;
-        if(player.health == 0) {
-            this.scene.start('goScene');
-        }  
-        player.body.setVelocityX(enemy.speed * 2);
-        console.log("player health=",player.health);
-        this.cameras.main.shake(100, 0.005);
-    }
-    handleWeaponEnemyCollision(weapon,enemy){
-        if(weapon.activeCheck){
-            enemy.health -=2;
-            console.log("enemy health=",enemy.health);
-            // slash_sfx.play;
-        }
-        
     }
     handleEnemyWallCollision(enemy){
         // enemy.body.setVelocityX(-enemy.speed);
         enemy.speed= -enemy.speed;
-    }
-    updateHealthUI(hero, full, empty, half ){
-        if(hero.health == 2){
-            full.visible = true;
-            half.visible = false;
-            empty.visible = false;
-        }
-        if(hero.health == 1 && hero.tookDMG == false){   
-            full.visible = false;
-            half.visible = true;
-            empty.visible = false;
-        }
-        if(hero.health <= 0 && hero.tookDMG == false){
-            full.visible = false; 
-            half.visible = false; 
-            empty.visible = true;
-        }
-    }
-    updateDashUI(hero, full, empty){
-        if(hero.canDash == true){
-            full.visible = true;
-            empty.visible = false;
-        }
-        if(hero.canDash == false){
-            full.visible = false;
-            empty.visible = true;
-        }
     }
 }

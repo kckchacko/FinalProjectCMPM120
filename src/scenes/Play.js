@@ -68,6 +68,8 @@ class Play extends Phaser.Scene{
         
 
         this.hero = new Hero(this, 200, 150 + cam_offset,'hero',2, 'down').setScale(1.5);
+        this.hero1 = new Hero(this, 200, 150 + cam_offset,'hero',2, 'down').setScale(1.5);
+
         this.hero.body.setSize(this.hero.width * 0.48, this.hero.height *0.68); //set collision
         this.heroFSM = new StateMachine('idle', {
             idle: new IdleState(),
@@ -80,7 +82,7 @@ class Play extends Phaser.Scene{
         // this.enemies = this.add.group();
         this.enemy = new Enemy(this, 500, 500 + cam_offset, 'stapler_enem',200,'horiz').setScale(1.5);
         this.enemy1 = new Enemy(this, 500, 500 + cam_offset, 'pencil_enem',200,'verti').setScale(1.25);
-        this.enemy2 = new Enemy(this, 500, 500 + cam_offset, 'stapler_enem',200,'crazy').setScale(1.5);
+        this.enemy2 = new Enemy(this, 500, 500 + cam_offset, 'printer_enem',200,'crazy').setScale(1.5);
 
         
         this.key = new Key(this, 622, 165 + cam_offset, 'key',200,'hoariz').setScale(1.7); //add the key
@@ -134,8 +136,6 @@ class Play extends Phaser.Scene{
         this.enemy2.update();
         // this.weapon.update();
         if(Phaser.Input.Keyboard.JustDown(this.swap)){
-            //this.scene.restart({ level: this.currentLevel + 1 });
-            //this.scene.start('menuScene');
             this.scene.start('Level2');
             this.bgm.stop();
         }

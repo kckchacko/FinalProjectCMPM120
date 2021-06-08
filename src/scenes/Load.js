@@ -27,6 +27,7 @@ class Load extends Phaser.Scene{
         this.load.image('key','weapons/key.png');
         this.load.image('stapler_enem', 'enemies/enem_stapler_0.png');
         this.load.image('pencil_enem', 'enemies/Pencil.png');
+        this.load.image('printer_enem', 'enemies/printer_enemy.png')
         // this.load.image();
 
         //load ui images
@@ -49,6 +50,11 @@ class Load extends Phaser.Scene{
             frameWidth: 32,
             frameHeight: 32,
         });
+
+        // this.load.spritesheet('hero_blonde', 'characters/hero_run.png',{
+        //     frameWidth: 32,
+        //     frameHeight: 32,
+        // }
         // this.load.atlas('hero_run_atlas', 'characters/hero_run.png', 'characters/hero_run.json');
 
         this.load.audio('dash_sfx', 'sfx/dash.wav');
