@@ -64,7 +64,7 @@ class Level2 extends Phaser.Scene{
         }, [this, this.hero]);
 
         this.enemy = new Enemy(this, 500, 500+ cam_offset, 'temp_enem',200,'horiz').setScale(1.5);
-        
+
         this.key = new Key(this, 544, 165 + cam_offset, 'key',200,'horiz').setScale(1.7); //add the key
         this.stair = new Stair(this, 860, 180 + cam_offset, 'stair').setScale(1.7).setImmovable();  //add stairs
         this.stair.setScale(2.7);
@@ -107,8 +107,8 @@ class Level2 extends Phaser.Scene{
             this.scene.start('Level3');
             this.bgm.stop();
         }
-        this.updateHealthUI(this.hero,this.heartFull, this.heartEmpty, this.heartHalf);
-        this.updateDashUI(this.hero, this.dashFull, this.dashEmpty)
+        this.UImanager.updateHealthUI(this.hero,this.heartFull, this.heartEmpty, this.heartHalf);
+        this.UImanager.updateDashUI(this.hero, this.dashFull, this.dashEmpty)
     }
     handlePlayerKeyCollision(player, key){
         this.keyCount++;

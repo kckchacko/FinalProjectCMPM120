@@ -107,8 +107,8 @@ class Level3 extends Phaser.Scene{
             this.scene.start('Level4');
             this.bgm.stop();
         }
-        this.updateHealthUI(this.hero,this.heartFull, this.heartEmpty, this.heartHalf);
-        this.updateDashUI(this.hero, this.dashFull, this.dashEmpty)
+        this.UImanager.updateHealthUI(this.hero,this.heartFull, this.heartEmpty, this.heartHalf);
+        this.UImanager.updateDashUI(this.hero, this.dashFull, this.dashEmpty)
     }
     handlePlayerKeyCollision(player, key){
         this.keyCount++;

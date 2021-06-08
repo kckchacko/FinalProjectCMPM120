@@ -26,7 +26,7 @@ class Level4 extends Phaser.Scene{
 
     }
     create(){ 
-        document.getElementById('description').innerHTML = '<h2>Play.js</h2><br>4444WASD to move, E to attack, V to go to menu';
+        // document.getElementById('description').innerHTML = '<h2>Play.js</h2><br>4444WASD to move, E to attack, V to go to menu';
         this.keyCount = 0;
         const map = this.add.tilemap('Level4');
         const tileset = map.addTilesetImage('wallsfloor2','microtileset'); 
@@ -111,8 +111,8 @@ class Level4 extends Phaser.Scene{
             this.scene.start('playScene');
             this.bgm.stop();
         }
-        this.updateHealthUI(this.hero,this.heartFull, this.heartEmpty, this.heartHalf);
-        this.updateDashUI(this.hero, this.dashFull, this.dashEmpty)
+        this.UImanager.updateHealthUI(this.hero,this.heartFull, this.heartEmpty, this.heartHalf);
+        this.UImanager.updateDashUI(this.hero, this.dashFull, this.dashEmpty)
     }
     handlePlayerKeyCollision(player, key){
         this.keyCount++;
