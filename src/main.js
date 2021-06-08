@@ -26,7 +26,6 @@ let config = {
 };
 
 let game = new Phaser.Game(config);
-
 let centerY = game.config.height/2;
 let centerX = game.config.weight/2;
 let w = game.config.width;
