@@ -18,7 +18,8 @@ class Hero extends Phaser.Physics.Arcade.Sprite{
         this.dashTime = 300; //in ms 
         this.dashCD = 2000; 
         this.canDash = true;
-        this.hurtCD = 500; //also in ms 
+        this.hitstunCD = 500;
+        this.hurtCD = 1000; //also in ms 
         this.invlunerable = false; 
         this.body.setCollideWorldBounds(true);
         this.tookDMG = false;
@@ -213,7 +214,7 @@ class DashState extends State {
                 hero.body.setVelocity(hero.heroVel,hero.heroVel);
                 break;
             case 'right':
-                hero.body.setVelocity(-hero.heroVel,-hero.heroVel);
+                hero.body.setVelocity(-hero.heroVel,hero.heroVel);
                 break;
         }
         // hero.body.setVelocity(hero.heroVel,hero.heroVel);
@@ -223,6 +224,11 @@ class DashState extends State {
         hero.anims.stop();
         hero.setTint(0xff0000);     // turn red
         hero.setImmovable(true);
+        scene.time.delayedCall(hero.hitstunCD, ()=>{
+            hero.setImmovable(false);
+        });
+        hero.setImmovable(false);
+
         console.log("took damage");
         // set recovery timer
         scene.time.delayedCall(hero.hurtCD, () => {

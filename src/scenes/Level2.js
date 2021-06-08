@@ -28,6 +28,7 @@ class Level2 extends Phaser.Scene{
         // data.music.stop();
         document.getElementById('description').innerHTML = '<h2>Play.js</h2><br>222WASD to move, E to attack, V to go to menu';
         this.keyCount = 0;
+        this.totalKeys = 1;
         const map = this.add.tilemap('Level2');
         const tileset = map.addTilesetImage('wallsfloor2','microtileset'); 
         //const backgroundlayer = map.createLayer('Walls', tileset, 0, 0); 
@@ -119,7 +120,8 @@ class Level2 extends Phaser.Scene{
         this.dash_sfx = this.sound.add('dash_sfx', {loop: false});
         this.dmg_sfx = this.sound.add('take_damage_sfx',{loop: false});
         this.footsteps = this.sound.add('footsteps_sfx',{volume: 0.3, loop: false});
-        
+        this.lose_sfx = this.sound.add('lose_sfx',{volume: 0.3, loop: false});
+
     }
     update(time, delta){
         // this.hero.update();
@@ -133,7 +135,7 @@ class Level2 extends Phaser.Scene{
             //this.scene.restart({ level: this.currentLevel + 1 });
             //this.scene.start('menuScene');
             this.scene.start('Level3');
-            //this.bgm.stop();
+            // this.bgm.stop();
         }
         this.UImanager.updateHealthUI(this.hero,this.heartFull, this.heartEmpty, this.heartHalf);
         this.UImanager.updateDashUI(this.hero, this.dashFull, this.dashEmpty)
@@ -161,8 +163,10 @@ class Level2 extends Phaser.Scene{
             player.health -= 1; 
             player.tookDMG = true;
             if(player.health == 0) {
-                this.scene.start('goScene');
                 this.bgm.stop();
+                this.lose_sfx.play();
+                this.scene.start('goScene');
+                
             }  
             // player.body.setVelocityX(enemy.speed * 2);
             console.log("player health=",player.health);

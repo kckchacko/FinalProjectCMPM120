@@ -59,6 +59,7 @@ class Load extends Phaser.Scene{
         this.load.audio('footsteps_sfx', 'sfx/footstep_loop.wav');
         this.load.audio('final_bgm', 'sfx/DoNotRun.mp3')
         this.load.audio('victory_sfx', 'sfx/victory.wav');
+        this.load.audio('lose_sfx', 'sfx/lose.wav');
     }
     create(){
         //create animations here

@@ -29,6 +29,7 @@ class Level4 extends Phaser.Scene{
         this.cameras.main.fadeIn(1000, 0, 0, 0);
         // document.getElementById('description').innerHTML = '<h2>Play.js</h2><br>4444WASD to move, E to attack, V to go to menu';
         this.keyCount = 0;
+        this.totalKeys = 2;
         const map = this.add.tilemap('Level4');
         const tileset = map.addTilesetImage('wallsfloor2','microtileset'); 
         
@@ -133,10 +134,13 @@ class Level4 extends Phaser.Scene{
 
 
         this.bgm = data.music;
+        
         this.dash_sfx = this.sound.add('dash_sfx', {loop: false});
         this.dmg_sfx = this.sound.add('take_damage_sfx',{loop: false});
         this.footsteps = this.sound.add('footsteps_sfx',{volume: 0.3, loop: false});
         this.victory_sfx = this.sound.add('victory_sfx', {loop: false});
+        this.lose_sfx = this.sound.add('lose_sfx',{volume: 0.3, loop: false});
+
     }
     update(time, delta){
         // this.hero.update();
@@ -147,7 +151,6 @@ class Level4 extends Phaser.Scene{
         this.enemy3.update();
         this.enemy4.update();
         this.enemy5.update();
-        // this.weapon.update();
         if(Phaser.Input.Keyboard.JustDown(this.swap)){
             //this.scene.restart({ level: this.currentLevel + 1 });
             //this.scene.start('menuScene');
@@ -161,6 +164,9 @@ class Level4 extends Phaser.Scene{
     handlePlayerKeyCollision(player, key){
         this.keyCount++;
         key.destroy();
+        if(this.keyCount >= this.totalKeys){
+            this.stair.locked = false;
+        }
         console.log("Key Collected", this.keyCount);
     }
 
@@ -179,8 +185,9 @@ class Level4 extends Phaser.Scene{
             player.health -= 1; 
             player.tookDMG = true;
             if(player.health == 0) {
-                this.scene.start('goScene');
                 this.bgm.stop();
+                this.lose_sfx.play();
+                this.scene.start('goScene');
             } 
             // player.body.setVelocityX(enemy.speed * 2);
             console.log("player health=",player.health);

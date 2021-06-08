@@ -83,7 +83,7 @@ class Play extends Phaser.Scene{
 
         
         this.key = new Key(this, 622, 165 + cam_offset, 'key',200,'hoariz').setScale(1.7); //add the key
-        this.stair = new Stair(this, 860, 180 + cam_offset, 'stair', true).setScale(1.7).setImmovable();  //add stairs
+        this.stair = new Stair(this, 860, 180 + cam_offset, 'stair').setScale(1.7).setImmovable();  //add stairs
         this.stair.setScale(2.7);
 
         this.enemy1.body.setSize(this.enemy1.width * 0.34, this.enemy1.height *0.8); //set collision
@@ -126,6 +126,7 @@ class Play extends Phaser.Scene{
         this.dash_sfx = this.sound.add('dash_sfx', {loop: false});
         this.dmg_sfx = this.sound.add('take_damage_sfx',{loop: false});
         this.footsteps = this.sound.add('footsteps_sfx',{volume: 0.3, loop: false});
+        this.lose_sfx = this.sound.add('lose_sfx',{volume: 0.3, loop: false});
         this.bgm.play();
         
     }
@@ -167,6 +168,8 @@ class Play extends Phaser.Scene{
             player.health -= 1; 
             player.tookDMG = true;
             if(player.health == 0) {
+                this.bgm.stop()
+                this.lose_sfx.play();
                 this.scene.start('goScene');
                 //this.bgm.stop();
             } 

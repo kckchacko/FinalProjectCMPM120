@@ -27,6 +27,7 @@ class Level3 extends Phaser.Scene{
         this.cameras.main.fadeIn(1000, 0, 0, 0);
         document.getElementById('description').innerHTML = '<h2>Play.js</h2><br>333WASD to move, E to attack, V to go to menu';
         this.keyCount = 0;
+        this.totalKeys = 1;
         const map = this.add.tilemap('Level3');
         const tileset = map.addTilesetImage('wallsfloor2','microtileset'); 
         //const backgroundlayer = map.createLayer('Walls', tileset, 0, 0); 
@@ -117,6 +118,7 @@ class Level3 extends Phaser.Scene{
         this.dash_sfx = this.sound.add('dash_sfx', {loop: false});
         this.dmg_sfx = this.sound.add('take_damage_sfx',{loop: false});
         this.footsteps = this.sound.add('footsteps_sfx',{volume: 0.3, loop: false});
+        this.lose_sfx = this.sound.add('lose_sfx',{volume: 0.3, loop: false});
         this.bgm = data.music;
         
     }
@@ -138,6 +140,9 @@ class Level3 extends Phaser.Scene{
     handlePlayerKeyCollision(player, key){
         this.keyCount++;
         this.key.destroy();
+        if(this.keyCount >= this.totalKeys){
+            this.stair.locked = false;
+        }
         console.log("Key Collected", this.keyCount);
     }
 
@@ -153,8 +158,9 @@ class Level3 extends Phaser.Scene{
             player.health -= 1; 
             player.tookDMG = true;
             if(player.health == 0) {
-                this.scene.start('goScene');
                 this.bgm.stop();
+                this.lose_sfx.play();
+                this.scene.start('goScene');
             } 
             // player.body.setVelocityX(enemy.speed * 2);
             console.log("player health=",player.health);
