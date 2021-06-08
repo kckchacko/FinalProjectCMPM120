@@ -78,17 +78,16 @@ class Play extends Phaser.Scene{
         }, [this, this.hero]);
 
         // this.enemies = this.add.group();
-        this.enemy = new Enemy(this, 500, 500 + cam_offset, 'temp_enem',200,'horiz').setScale(1.5);
-        this.enemy1 = new Enemy(this, 500, 500 + cam_offset, 'temp_enem',200,'verti').setScale(1.5);
-        this.enemy2 = new Enemy(this, 500, 500 + cam_offset, 'temp_enem',200,'crazy').setScale(1.5);
+        this.enemy = new Enemy(this, 500, 500 + cam_offset, 'stapler_enem',200,'horiz').setScale(1.5);
+        this.enemy1 = new Enemy(this, 500, 500 + cam_offset, 'pencil_enem',200,'verti').setScale(1.25);
+        this.enemy2 = new Enemy(this, 500, 500 + cam_offset, 'stapler_enem',200,'crazy').setScale(1.5);
 
-        // this.enemies.add(enemy);
-        // this.enemies.add(enemy1);
+        
         this.key = new Key(this, 622, 165 + cam_offset, 'key',200,'hoariz').setScale(1.7); //add the key
         this.stair = new Stair(this, 860, 180 + cam_offset, 'stair', true).setScale(1.7).setImmovable();  //add stairs
         this.stair.setScale(2.7);
 
-        this.enemy.body.setSize(this.hero.width * 0.48, this.enemy.height *0.53); //set collision
+        // this.enemy.body.setSize(this.hero.width * 0.48, this.enemy.height *0.53); //set collision
 
         this.physics.add.collider(this.enemy, groundLayer);
         this.physics.add.collider(this.enemy, propLayer);
@@ -120,8 +119,11 @@ class Play extends Phaser.Scene{
         this.swap = this.input.keyboard.addKey('V');
 
 
-        this.bgm = this.sound.add('temp_bgm',{volume: 0.1, loop: true});
-        // this.bgm.play();
+        this.bgm = this.sound.add('final_bgm',{volume: .7, loop: true});
+        this.dash_sfx = this.sound.add('dash_sfx', {loop: false});
+        this.dmg_sfx = this.sound.add('take_damage_sfx',{loop: false});
+        this.footsteps = this.sound.add('footsteps_sfx',{volume: 0.3, loop: false});
+        this.bgm.play();
         
     }
     update(time, delta){
@@ -160,10 +162,12 @@ class Play extends Phaser.Scene{
     handlePlayerEnemyCollision(player, enemy){
         // if(!enemy.alreadyOverlapp)
         if(player.tookDMG == false){
+            this.dmg_sfx.play();
             player.health -= 1; 
             player.tookDMG = true;
             if(player.health == 0) {
                 this.scene.start('goScene');
+                this.bgm.stop();
             } 
             // player.body.setVelocityX(enemy.speed * 2);
             console.log("player health=",player.health);

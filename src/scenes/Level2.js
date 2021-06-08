@@ -64,7 +64,7 @@ class Level2 extends Phaser.Scene{
             hurt: new HurtState(),
         }, [this, this.hero]);
 
-        this.enemy = new Enemy(this, 500, 500+ cam_offset, 'temp_enem',200,'horiz').setScale(1.5);
+        this.enemy = new Enemy(this, 500, 500+ cam_offset, 'stapler_enem',200,'horiz').setScale(1.5);
 
         this.key = new Key(this, 544, 165 + cam_offset, 'key',200,'horiz').setScale(1.7); //add the key
         this.stair = new Stair(this, 860, 180 + cam_offset, 'stair').setScale(1.7).setImmovable();  //add stairs
@@ -93,7 +93,7 @@ class Level2 extends Phaser.Scene{
         this.swap = this.input.keyboard.addKey('V');
 
 
-        this.bgm = this.sound.add('temp_bgm',{volume: 0.1, loop: true});
+        // this.bgm = this.sound.add('temp_bgm',{volume: 0.1, loop: true});
         // this.bgm.play();
         
     }

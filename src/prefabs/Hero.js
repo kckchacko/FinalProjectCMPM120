@@ -22,7 +22,8 @@ class Hero extends Phaser.Physics.Arcade.Sprite{
         this.invlunerable = false; 
         this.body.setCollideWorldBounds(true);
         this.tookDMG = false;
-       
+        this.footsteps_played = false;
+        this.footsteps_cd = 700;
         //add movement keys 
         const {W,A,S,D,Q,E} = Phaser.Input.Keyboard.KeyCodes
         this.keys = scene.input.keyboard.addKeys({
@@ -114,7 +115,6 @@ class Hero extends Phaser.Physics.Arcade.Sprite{
     update(scene, hero){
         
     
-    
     }
 
 
@@ -125,6 +125,7 @@ class Hero extends Phaser.Physics.Arcade.Sprite{
         hero.body.setVelocity(0);
         hero.anims.play(`walk-${hero.direction}`);
         hero.anims.stop();
+        scene.footsteps.stop();
     }
     execute(scene,hero){
         if(Phaser.Input.Keyboard.JustDown(hero.keys.e)){
@@ -149,13 +150,10 @@ class Hero extends Phaser.Physics.Arcade.Sprite{
 
  class MoveState extends State {
     execute(scene, hero) {
-        // use destructuring to make a local copy of the keyboard object
-        // const { left, right, up, down, space, shift } = scene.keys;
-        // const HKey = scene.keys.HKey;
-
-
+        
         // transition to dash if pressing shift
         if(Phaser.Input.Keyboard.JustDown(hero.keys.q) && hero.canDash) {
+            
             this.stateMachine.transition('dash');
             return;
         }
@@ -169,6 +167,13 @@ class Hero extends Phaser.Physics.Arcade.Sprite{
 
         // handle movement
         hero.body.setVelocity(0);
+        if(hero.footsteps_played == false){
+            hero.footsteps_played = true;
+            scene.footsteps.play();
+            scene.time.delayedCall(hero.footsteps_cd, () => {
+                hero.footsteps_played = false;
+            });
+        }
         if(hero.keys.w.isDown) {
             hero.body.setVelocityY(-hero.heroVel);
             hero.direction = 'up';
@@ -203,10 +208,11 @@ class SwingState extends State {
 
 class DashState extends State {
     enter(scene, hero) {
-        hero.body.setVelocity(0)
-
+        hero.body.setVelocity(0);
+        scene.dash_sfx.play();
         hero.canDash = false;
         hero.anims.play(`swing-${hero.direction}`);
+        
         switch(hero.direction) {
             case 'up':
                 hero.body.setVelocityY(-hero.heroVel * 3);

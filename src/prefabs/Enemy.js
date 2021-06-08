@@ -17,6 +17,8 @@
         switch(type){
             case 'horiz':
                 this.body.setVelocityX(this.speed);
+                this.body.setSize(scene.hero.width * 0.48, this.height *0.53); //set collision
+
                 break;
             case 'verti':
                 this.body.setVelocityY(this.speed);

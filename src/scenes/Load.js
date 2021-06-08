@@ -25,7 +25,9 @@ class Load extends Phaser.Scene{
         
         this.load.image('weapon','weapons/mani_weapon.png');
         this.load.image('key','weapons/key.png');
-        this.load.image('temp_enem', 'enemies/enem_stapler_0.png');
+        this.load.image('stapler_enem', 'enemies/enem_stapler_0.png');
+        this.load.image('pencil_enem', 'enemies/Pencil.png');
+        // this.load.image();
 
         //load ui images
         this.load.image('microtileset', 'tilesheets/wallsfloor2.png');
@@ -53,7 +55,8 @@ class Load extends Phaser.Scene{
         this.load.audio('deal_damage_sfx', 'sfx/deal_damage.wav');
         this.load.audio('slash_sfx', 'sfx/deal_damage.wav');
         this.load.audio('take_damage_sfx', 'sfx/take_damage.wav');
-        this.load.audio('temp_bgm', 'sfx/finalProjTempbgm.mp3')
+        this.load.audio('footsteps_sfx', 'sfx/footstep_loop.wav');
+        this.load.audio('final_bgm', 'sfx/DoNotRun.mp3')
     }
     create(){
         //create animations here
