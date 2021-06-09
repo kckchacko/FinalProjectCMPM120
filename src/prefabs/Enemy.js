@@ -17,14 +17,15 @@
         switch(type){
             case 'horiz':
                 this.body.setVelocityX(this.speed);
-                this.body.setSize(scene.hero.width * 0.48, this.height *0.53); //set collision
-
+                this.body.setSize(scene.hero.width * 0.48, this.body.height *0.53); //set collision
                 break;
             case 'verti':
                 this.body.setVelocityY(this.speed);
+                this.body.setSize(this.body.width * 0.34, this.body.height *0.8); //set collision
                 break;
             case 'crazy' :
                 this.body.setVelocity(this.speed, this.speed);
+                this.body.setSize(this.body.width * 0.68, this.body.height *0.56); //set collision
                 break;
             default:
                 return;

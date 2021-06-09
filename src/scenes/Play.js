@@ -50,7 +50,7 @@ class Play extends Phaser.Scene{
         groundLayer.setCollisionByProperty({
             collides: true
         });     
-
+        //set cameras
         this.cameras.main.setBackgroundColor(0x00000);
         this.cameras.main.height = 1000
         this.cameras.main.width = 1024
@@ -69,19 +69,18 @@ class Play extends Phaser.Scene{
             hurt: new HurtState(),
         }, [this, this.hero]);
 
-        // this.enemies = this.add.group();
+        //Set up enemies
         this.enemy = new Enemy(this, 500, 500 + cam_offset, 'stapler_enem',200,'horiz').setScale(1.5);
         this.enemy1 = new Enemy(this, 500, 500 + cam_offset, 'pencil_enem',200,'verti').setScale(1.25);
         this.enemy2 = new Enemy(this, 500, 500 + cam_offset, 'printer_enem',200,'crazy').setScale(1.5);
 
-        
+        //set up other objects
         this.key = new Key(this, 622, 165 + cam_offset, 'key',200,'hoariz').setScale(1.7); //add the key
         this.stair = new Stair(this, 860, 180 + cam_offset, 'stair').setScale(1.7).setImmovable();  //add stairs
         this.stair.setScale(2.7);
 
-        this.enemy1.body.setSize(this.enemy1.width * 0.34, this.enemy1.height *0.8); //set collision
-        this.enemy2.body.setSize(this.enemy2.width * 0.68, this.enemy2.height *0.56); //set collision
-
+        
+        //add enemy & object collisions 
         this.physics.add.collider(this.enemy, groundLayer);
         this.physics.add.collider(this.enemy, propLayer);
         this.physics.add.collider(this.enemy, stairLayer);
@@ -99,6 +98,7 @@ class Play extends Phaser.Scene{
 
         this.cameras.main.setBounds(0,0, map.widthInPixels, map.heightInPixels);
 
+        //add hero collisions
         this.physics.add.collider(this.hero, groundLayer);
         this.physics.add.collider(this.hero, propLayer);
         this.physics.add.collider(this.hero, stairLayer);
@@ -112,9 +112,8 @@ class Play extends Phaser.Scene{
         this.cameras.main.startFollow(this.hero, true, 0.8, 0.8)
 
 
-        this.swap = this.input.keyboard.addKey('V');
 
-
+        //load sounds 
         this.bgm = this.sound.add('final_bgm',{volume: .7, loop: true});
         this.dash_sfx = this.sound.add('dash_sfx', {loop: false});
         this.dmg_sfx = this.sound.add('take_damage_sfx',{loop: false});
@@ -129,11 +128,6 @@ class Play extends Phaser.Scene{
         this.enemy.update();
         this.enemy1.update();
         this.enemy2.update();
-        // this.weapon.update();
-        if(Phaser.Input.Keyboard.JustDown(this.swap)){
-            this.scene.start('Level2');
-            this.bgm.stop();
-        }
         this.UImanager.updateHealthUI(this.hero,this.heartFull, this.heartEmpty, this.heartHalf);
         this.UImanager.updateDashUI(this.hero, this.dashFull, this.dashEmpty);
         this.stair.update();
@@ -143,7 +137,7 @@ class Play extends Phaser.Scene{
         this.keyCount++;
         this.key.destroy();
         if(this.keyCount >= this.totalKeys){
-            this.stair.locked = false;
+            this.stair.locked = false; //clears tint
         }
         console.log("Key Collected", this.keyCount);
     }
@@ -155,7 +149,6 @@ class Play extends Phaser.Scene{
         }
     }
     handlePlayerEnemyCollision(player, enemy){
-        // if(!enemy.alreadyOverlapp)
         if(player.tookDMG == false){
             this.dmg_sfx.play();
             player.health -= 1; 
@@ -164,9 +157,7 @@ class Play extends Phaser.Scene{
                 this.bgm.stop()
                 this.lose_sfx.play();
                 this.scene.start('goScene',{music: this.bgm, level: 'first'});
-                //this.bgm.stop();
             } 
-            // player.body.setVelocityX(enemy.speed * 2);
             console.log("player health=",player.health);
             this.cameras.main.shake(100, 0.005);
         }
@@ -174,7 +165,6 @@ class Play extends Phaser.Scene{
         
     }
     handleEnemyWallCollision(enemy){
-        // enemy.body.setVelocityX(-enemy.speed);
         enemy.speed= -enemy.speed;
     }
     

@@ -73,11 +73,8 @@ class Level2 extends Phaser.Scene{
         this.stair = new Stair(this, 860, 180 + cam_offset, 'stair').setScale(1.7).setImmovable();  //add stairs
         this.stair.setScale(2.7);
 
-        this.enemy.body.setSize(this.hero.width * 0.48, this.enemy.height *0.53); //set collision
-        this.enemy1.body.setSize(this.enemy1.width * 0.34, this.enemy1.height *0.8); //set collision
-        this.enemy2.body.setSize(this.enemy2.width * 0.68, this.enemy2.height *0.56);
-        this.enemy3.body.setSize(this.enemy3.width * 0.34, this.enemy3.height *0.8);
-
+      
+        //add enemy & object collisions 
         this.physics.add.collider(this.enemy, groundLayer);
         this.physics.add.collider(this.enemy, propLayer);
         this.physics.add.collider(this.enemy, stairLayer);
@@ -99,6 +96,8 @@ class Level2 extends Phaser.Scene{
 
         this.cameras.main.setBounds(0,0, map.widthInPixels, map.heightInPixels);
 
+
+        //add hero collisions
         this.physics.add.collider(this.hero, groundLayer);
         this.physics.add.collider(this.hero, propLayer);
         this.physics.add.collider(this.hero, stairLayer);
@@ -113,9 +112,7 @@ class Level2 extends Phaser.Scene{
         this.cameras.main.startFollow(this.hero, true, 0.8, 0.8)
 
 
-        this.swap = this.input.keyboard.addKey('V');
-
-
+        //add sounds
         this.bgm = data.music;
         this.restarted = data.restart; 
         if(this.restarted){
@@ -128,19 +125,11 @@ class Level2 extends Phaser.Scene{
 
     }
     update(time, delta){
-        // this.hero.update();
         this.heroFSM.step();
         this.enemy.update();
         this.enemy1.update();
         this.enemy2.update();
         this.enemy3.update();
-        // this.weapon.update();
-        if(Phaser.Input.Keyboard.JustDown(this.swap)){
-            //this.scene.restart({ level: this.currentLevel + 1 });
-            //this.scene.start('menuScene');
-            this.scene.start('Level3');
-            // this.bgm.stop();
-        }
         this.UImanager.updateHealthUI(this.hero,this.heartFull, this.heartEmpty, this.heartHalf);
         this.UImanager.updateDashUI(this.hero, this.dashFull, this.dashEmpty)
         this.stair.update();
@@ -161,7 +150,6 @@ class Level2 extends Phaser.Scene{
         }
     }
     handlePlayerEnemyCollision(player, enemy){
-        // if(!enemy.alreadyOverlapp)
         if(player.tookDMG == false){
             this.dmg_sfx.play();
             player.health -= 1; 
@@ -172,7 +160,6 @@ class Level2 extends Phaser.Scene{
                 this.scene.start('goScene',{music: this.bgm, level: 'second'});
                 
             }  
-            // player.body.setVelocityX(enemy.speed * 2);
             console.log("player health=",player.health);
             this.cameras.main.shake(100, 0.005);
         }
@@ -180,7 +167,6 @@ class Level2 extends Phaser.Scene{
         
     }
     handleEnemyWallCollision(enemy){
-        // enemy.body.setVelocityX(-enemy.speed);
         enemy.speed= -enemy.speed;
     }
     
