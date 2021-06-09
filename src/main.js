@@ -19,7 +19,7 @@ let config = {
         default: 'arcade',
         arcade: {
             gravity: { y: 0 },
-            debug: true,
+            debug: false,
         }
     },
     scene: [Load, Menu, Play, Level2, Level3, Level4, Story, End, Credits, GameOver],
